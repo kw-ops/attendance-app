@@ -32,7 +32,7 @@ const appColors = ThemeModel(
   grey6A7187: Color(0xFF6A7187),
   blue2B63E1: Color(0xFF2B63E1),
   green: Color(0xFF4BD37B),
-  red: Color(0xFFFF4F4F),
+  red: Color.fromRGBO(132, 4, 4, 1),
   lightBlue: Color(0xFFF2F6FF),
   primary: Color(0xFF01A985),
   secondary: Color(0xFFF0A92B),
