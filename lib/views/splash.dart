@@ -3,9 +3,8 @@ import 'dart:async';
 
 import 'package:attendance/const/constants.dart';
 import 'package:attendance/const/funcs.dart';
-import 'package:attendance/views/welcome.dart';
-import 'package:attendance/widget/next_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTimer() async {
-    Timer(const Duration(milliseconds: 2500), (() => nextScreen(context, const WelcomeScreen())));
+    Timer(const Duration(milliseconds: 2500), (() => context.goNamed('/welcome')));
   }
 
   @override

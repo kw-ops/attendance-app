@@ -3,6 +3,7 @@ import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../const/constants.dart';
 import '../widget/validator.dart';
@@ -19,7 +20,7 @@ TextEditingController usernameController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 TextEditingController studentidController = TextEditingController();
 String username = "";
-String email = '';
+String password = '';
 String studentId = '';
 AuthValidate authValidate = AuthValidate();
 
@@ -121,13 +122,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           username = value;
                           return;
                         },
-                        //(Validation)//
                         validator: (value) =>
-                            authValidate.validateNotEmpty(value),
-
-                        // onsaved: (value) {
-                        //   usernameController.text = value!;
-                        // },
+                            AuthValidate().validatePassword(value),
+                        onSaved: (value) {
+                          usernameController.text = value;
+                        },
                       ),
                       createSpace(size, 5, 'vertical'),
                       AppTextField(
@@ -137,13 +136,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         titleColor: appColors.black,
                         isPasswordField: true,
                         controller: passwordController,
+                        textInputType: TextInputType.emailAddress,
                         onchanged: (value) {
-                          username = value;
+                          password = value;
                           return;
                         },
-                        //(Validation)//
                         validator: (value) =>
-                            authValidate.validateNotEmpty(value),
+                            AuthValidate().validatePassword(value),
+                        onSaved: (value) {
+                          passwordController.text = value;
+                        },
                       ),
                       createSpace(size, 10, 'vertical'),
                       GestureDetector(
@@ -160,13 +162,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         titleColor: appColors.black,
                         isPasswordField: true,
                         controller: studentidController,
+                        textInputType: TextInputType.name,
                         onchanged: (value) {
-                          username = value;
+                          studentId = value;
                           return;
                         },
-                        //(Validation)//
                         validator: (value) =>
-                            authValidate.validateNotEmpty(value),
+                            AuthValidate().validateNotEmpty(value),
+                        onSaved: (value) {
+                          studentidController.text = value;
+                        },
                       ),
                     ],
                   ),
@@ -181,7 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   onpressed: () {
                     if (_loginFormKey.currentState!.validate()) {
                       _loginFormKey.currentState!.save();
-                      
+                      context.goNamed('/studentHome');
                     }
                   },
                   text: 'Login',

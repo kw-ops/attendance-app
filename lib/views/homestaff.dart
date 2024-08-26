@@ -1,27 +1,22 @@
-import 'package:attendance/model/coursemaodel.dart';
-import 'package:attendance/model/location.dart';
-import 'package:attendance/views/attstudent.dart';
-import 'package:attendance/views/verifyscrstud.dart';
-import 'package:attendance/widget/avatorwidget.dart';
-import 'package:attendance/widget/utils/haptic_utils.dart';
-import 'package:attendance/widget/utils/location_service.dart';
+import 'package:attendance/views/staffattend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-
 import '../const/constants.dart';
 import '../const/funcs.dart';
+import '../model/coursemaodel.dart';
+import '../widget/utils/location_service.dart';
 import '../widget/widgets.dart';
 
-class HomeScreenStudent extends StatefulWidget {
-  const HomeScreenStudent({super.key});
+class HomeStaffScreen extends StatefulWidget {
+  const HomeStaffScreen({super.key});
 
   @override
-  State<HomeScreenStudent> createState() => _HomeScreenStudentState();
+  State<HomeStaffScreen> createState() => _HomeStaffScreenState();
 }
 
-class _HomeScreenStudentState extends State<HomeScreenStudent> {
+class _HomeStaffScreenState extends State<HomeStaffScreen> {
   final List<CoursesModel> _courseCard = [
     CoursesModel(
       image: pic1,
@@ -30,22 +25,22 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
     ),
     CoursesModel(
       image: pic2,
-      courseCode: 'CSM 481',
+      courseCode: 'CSM 236',
       attActive: false,
     ),
     CoursesModel(
       image: pic3,
-      courseCode: 'CSM 411',
+      courseCode: 'CSM 410',
       attActive: false,
     ),
     CoursesModel(
       image: pic4,
-      courseCode: 'CSM 247',
+      courseCode: 'CSM 174',
       attActive: false,
     ),
     CoursesModel(
       image: pic5,
-      courseCode: 'CSM 246',
+      courseCode: 'CSM 326',
       attActive: false,
     ),
     CoursesModel(
@@ -89,18 +84,12 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
               padding: const EdgeInsets.all(20),
               child: GestureDetector(
                 onTap: () {
-                  if (_courseCard[index].attActive == true) {
-                    context.goNamed('/attStud');
-                    _authenticate();
-                    // LocationService()
-                    //     .getLocation()
-                    //     .then((value) => print(value));
-                    LocationService()
+                  _authenticate();
+                  // LocationService().getLocation().then((value) => print(value));
+                  LocationService()
                       .determinePosition()
                       .then((value) => print(value));
-                  } else {
-                    HapticUtils.vibrate();
-                  }
+                  context.pushNamed('/attStaff', pathParameters: {'verCode':'0'});
                 },
                 child: Container(
                   height: Dimensions().pSH(70),
@@ -121,31 +110,12 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                     padding: const EdgeInsets.only(
                         top: 0, right: 10, bottom: 0, left: 0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AvatorWidget(
-                            image: _courseCard[index].image!,
-                            height: Dimensions().pSH(70),
-                            width: Dimensions().pSW(70)),
                         AppTextWidget(
                           text: _courseCard[index].courseCode!,
                           fontsize: getFontSize(24, size),
                           fontWeight: FontWeight.bold,
-                        ),
-                        Switch(
-                          activeColor: appColors.white,
-                          activeTrackColor: appColors.green0001,
-                          inactiveTrackColor: appColors.red,
-                          inactiveThumbColor: appColors.white,
-                          value: _courseCard[index].attActive!,
-                          onChanged: (val) {
-                            setState(
-                              () {
-                                _courseCard[index].attActive =
-                                    _courseCard[index].attActive;
-                              },
-                            );
-                          },
                         ),
                       ],
                     ),

@@ -1,37 +1,28 @@
-import 'package:attendance/const/funcs.dart';
-import 'package:attendance/views/homestu.dart';
-import 'package:attendance/views/welcome.dart';
-import 'package:attendance/widget/app_text_widget.dart';
-import 'package:attendance/widget/inputs/inputs.dart';
-import 'package:attendance/widget/inputs/pin_code_textfield_widget.dart';
-import 'package:attendance/widget/next_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import '../const/constants.dart';
+import '../const/funcs.dart';
+import '../widget/inputs/pin_code_textfield_widget.dart';
+import '../widget/widgets.dart';
 
-class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+class VerifyStaffScreen extends StatefulWidget {
+  const VerifyStaffScreen({super.key});
 
   @override
-  State<VerificationScreen> createState() => _VerificationScreenState();
+  State<VerifyStaffScreen> createState() => _VerifyStaffScreenState();
 }
+String otpCode = '';
+TextEditingController pinCodeController = TextEditingController();
 
-class _VerificationScreenState extends State<VerificationScreen> {
+class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            nextScreen(context, const HomeScreenStudent());
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -53,7 +44,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               UniversalPinCodeField(
                 obsucureText: false,
                 length: 5,
-                //controller: pinCodeController,
+                controller: pinCodeController,
                 shape: PinCodeFieldShape.box,
                 fieldHeight: Dimensions().pSH(60),
                 fieldWidth: Dimensions().pSW(60),
@@ -62,7 +53,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 borderWidth: 1,
                 inactiveBorderWidth: 0.2,
-                onDone: (results) {},
+                onDone: (results) {
+                  otpCode = results.toString();
+                },
               ),
               RichText(
                 //textAlign: TextAlign.center,
@@ -92,7 +85,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   horizontal: 10,
                 ),
                 child: UniversalElevatedAppButton(
-                  onpressed: () {},
+                  onpressed: () {
+                    context.goNamed('/attStaff', pathParameters: {'verCode': otpCode});
+                  },
                   text: 'Submit',
                   buttonColor: appColors.red,
                   fontsize: getFontSize(22, size),

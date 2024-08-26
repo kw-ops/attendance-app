@@ -31,8 +31,8 @@ class CustomTheme {
       //   ),
       // ),
       textTheme: const TextTheme(
-        bodyText1: TextStyle(),
-        bodyText2: TextStyle(),
+        // bodyText1: TextStyle(),
+        // bodyText2: TextStyle(),
       ).apply(
           displayColor: appColors.armyGreen, bodyColor: appColors.armyGreen),
       fontFamily: 'Inter');
@@ -54,8 +54,8 @@ class CustomTheme {
     ),
     canvasColor: appColors.kGrey700,
     textTheme: const TextTheme(
-      bodyText1: TextStyle(),
-      bodyText2: TextStyle(),
+      // bodyText1: TextStyle(),
+      // bodyText2: TextStyle(),
     ).apply(
         displayColor: appColors.darkGrey,
         bodyColor: const Color.fromRGBO(40, 40, 40, 1)),

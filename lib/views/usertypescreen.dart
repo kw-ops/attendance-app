@@ -1,9 +1,5 @@
-import 'package:attendance/views/signin.dart';
-import 'package:attendance/views/stafflogin.dart';
-import 'package:attendance/views/welcome.dart';
-import 'package:attendance/widget/next_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 import '../const/constants.dart';
 import '../const/funcs.dart';
 import '../widget/widgets.dart';
@@ -68,7 +64,7 @@ class _USerTypeScreenState extends State<USerTypeScreen> {
                   UniversalElevatedAppButton(
                     height: Dimensions().pSH(40),
                     onpressed: () {
-                      nextScreen(context, const SignInScreen());
+                      context.goNamed('/studentLogin');
                     },
                     text: 'Student',
                     fontsize: getFontSize(13, size),
@@ -94,7 +90,7 @@ class _USerTypeScreenState extends State<USerTypeScreen> {
                   UniversalElevatedAppButton(
                     height: Dimensions().pSH(40),
                     onpressed: () {
-                      nextScreen(context, const StaffSignInScreen());
+                      context.goNamed('/staffLogin');
                     },
                     text: 'Staff',
                     fontsize: getFontSize(13, size),
@@ -107,7 +103,7 @@ class _USerTypeScreenState extends State<USerTypeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              nextScreen(context, const WelcomeScreen());
+              context.goNamed('/welcome');
             },
             child: SizedBox(
               child: Column(

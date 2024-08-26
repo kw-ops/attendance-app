@@ -1,23 +1,27 @@
-import 'package:attendance/const/funcs.dart';
+import 'package:attendance/views/homestaff.dart';
 import 'package:attendance/views/slider.dart';
+import 'package:attendance/views/verifyscrstaff.dart';
 import 'package:attendance/views/verifyscrstud.dart';
-import 'package:attendance/widget/app_text_widget.dart';
-import 'package:attendance/widget/utils/utils.dart';
+import 'package:attendance/widget/utils/date_time_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradient_slide_to_act/gradient_slide_to_act.dart';
 
 import '../const/constants.dart';
+import '../const/funcs.dart';
+import '../widget/widgets.dart';
 
-class AttendanceScreenStudent extends StatefulWidget {
-  const AttendanceScreenStudent({super.key});
+class StaffAttendanceScreen extends StatefulWidget {
+  const StaffAttendanceScreen({
+    super.key,
+    required String vrcode,
+  });
 
   @override
-  State<AttendanceScreenStudent> createState() =>
-      _AttendanceScreenStudentState();
+  State<StaffAttendanceScreen> createState() => _StaffAttendanceScreenState();
 }
 
-class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
+class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
@@ -105,10 +109,13 @@ class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
               color: appColors.black,
             ),
             createSpace(size, 50, 'vertical'),
-            // const CustomSliderButton(
+            // CustomSliderButton(
             //   width: 340,
             //   height: 80,
-            //   routerPage: '/verStud',
+            //   isComp: () {
+            //     print('ect');
+            //     context.pushNamed('/verStaff');
+            //   },
             // ),
             GradientSlideToAct(
               width: 340,
@@ -117,7 +124,38 @@ class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
               backgroundColor: Color.fromARGB(255, 23, 99, 29),
               onSubmit: () {
                 print("Submitted!");
-                context.pushNamed('/verStud');
+                context.pushNamed('/verStaff');
+              },
+              gradient:const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  Color.fromARGB(255, 8, 87, 5),
+                ],
+              ),
+            ),
+            createSpace(size, 25, 'vertical'),
+            Center(
+              child: AppTextWidget(
+                text: otpCode,
+                fontsize: getFontSize(22, size),
+                color: appColors.black,
+              ),
+            ),
+            createSpace(size, 25, 'vertical'),
+            // const CustomSliderButton(
+            //   width: 340,
+            //   height: 80,
+            // ),
+            GradientSlideToAct(
+              width: 340,
+              height: 80,
+              textStyle: TextStyle(color: Colors.white, fontSize: 15),
+              backgroundColor: Color.fromARGB(255, 23, 99, 29),
+              onSubmit: () {
+                print("Submitted!");
+                // context.pushNamed('/verStud');
               },
               gradient:const LinearGradient(
                 begin: Alignment.topLeft,

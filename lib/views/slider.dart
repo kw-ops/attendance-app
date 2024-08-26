@@ -1,20 +1,23 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:attendance/const/funcs.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 import '../const/constants.dart';
 
 class CustomSliderButton extends StatefulWidget {
   final double width;
   final double height;
-  final Widget routerPage;
+  final String? routerPage;
+  final Function? isComp;
 
   const CustomSliderButton({
     super.key,
     required this.width,
     required this.height,
-    required this.routerPage,
+    this.routerPage,
+    this.isComp,
   });
 
   @override
@@ -24,13 +27,11 @@ class CustomSliderButton extends StatefulWidget {
 class _CustomSliderButtonState extends State<CustomSliderButton>
     with SingleTickerProviderStateMixin {
   double _value = 0.0;
-  bool _isDragging = false;
+  // bool _isDragging = false;
   bool _isSlideCompleted = false;
-  
 
   late AnimationController _controller;
   late Animation<double> _animation;
-  
 
   @override
   void initState() {
@@ -49,9 +50,13 @@ class _CustomSliderButtonState extends State<CustomSliderButton>
   }
 
   void _updateValue(double newValue) {
+    print(_value);
     setState(() {
       _value = newValue.clamp(0.0, 1.0);
+      print(_value);
       if (_value == 1) {
+        widget.isComp?.call();
+        print("obj");
         _isSlideCompleted = true;
         _controller.forward();
       } else {
@@ -60,29 +65,32 @@ class _CustomSliderButtonState extends State<CustomSliderButton>
       }
     });
 
-    if (_isSlideCompleted) {
-      Timer(const Duration(milliseconds: 1500), () async {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => widget.routerPage));
-        // widget.routerPage;
-      });
-    }
+    // if (_isSlideCompleted == true) {
+    //   // Timer(const Duration(milliseconds: 500), () {
+    //   //   // Navigator.push(
+    //   //   //     context,
+    //   //   //     MaterialPageRoute(
+    //   //   //         builder: (context) => widget.routerPage));
+    //   //   // widget.routerPage;
+    //   //   context.pushNamed(widget.routerPage);
+    //   //   print('object');
+    //   // });
+    //   widget.isComp?.call();
+    // }
   }
 
   void _onTapDown(TapDownDetails details) {
-    _isDragging = true;
+    // _isDragging = true;
     _updateValue(details.localPosition.dx / widget.width);
   }
 
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
-    _isDragging = true;
+    // _isDragging = true;
     _updateValue(details.localPosition.dx / widget.width);
   }
 
   void _onHorizontalDragEnd(DragEndDetails details) {
-    _isDragging = false;
+    // _isDragging = false;
     if (!_isSlideCompleted) {
       _updateValue(0.0);
     }
@@ -179,13 +187,13 @@ class _CustomSliderButtonState extends State<CustomSliderButton>
                         children: [
                           Icon(
                             Icons.check,
-                            color: appColors.white,
-                            size: getFontSize(18, size),
+                            color: appColors.red,
+                            size: 30,
                           ),
                           createSpace(size, 20, 'horizontal'),
                           AppTextWidget(
                             text: 'Successful',
-                            fontsize: getFontSize(16, size),
+                            fontsize: getFontSize(22, size),
                           )
                         ],
                       ),

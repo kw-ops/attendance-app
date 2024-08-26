@@ -1,11 +1,9 @@
 import 'package:attendance/const/constants.dart';
 import 'package:attendance/const/funcs.dart';
-import 'package:attendance/views/usertypescreen.dart';
-import 'package:attendance/widget/app_text_widget.dart';
-import 'package:attendance/widget/next_screen.dart';
 import 'package:attendance/widget/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -52,7 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   UniversalElevatedAppButton(
                     height: Dimensions().pSH(40),
                     onpressed: () {
-                      nextScreen(context, const USerTypeScreen());
+                      context.goNamed('/userType');
                     },
                     text: 'Tap to Log In',
                     fontsize: getFontSize(13, size),
@@ -71,7 +69,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   createSpace(size, 10, 'vertical'),
                   GestureDetector(
-                    onTap: (){},
+                    onTap: () {},
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
