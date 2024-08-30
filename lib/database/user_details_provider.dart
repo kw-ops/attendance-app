@@ -1,26 +1,16 @@
 import 'package:attendance/model/loginuser.dart';
-import 'package:attendance/model/users.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   // ignore: prefer_final_fields
-  LogUs? _logUs;
-  Users? _user;
+  LogUs? _user;
   String? _accessToken;
-  int? id;
 
-  LogUs getLoginDetails() {
-    return _logUs ?? LogUs();
-  }
-  Users getUserDetails() {
-    return _user ?? Users(id: id);
+  LogUs getUserDetails() {
+    return _user ?? LogUs();
   }
 
-  void setLoginDetails(LogUs logUs) {
-    _logUs = logUs;
-    notifyListeners();
-  }
-  void setUserDetails(Users user) {
+  void setUserDetails(LogUs user) {
     _user = user;
     notifyListeners();
   }

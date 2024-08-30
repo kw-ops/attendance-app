@@ -16,19 +16,19 @@ import 'user_details_provider.dart';
 class AttendanceFunctionalityStaff{
   Future fetchStudents(
       {required BuildContext context, required String students}) async {
-    final hasConnection = context.read<InternetProvider>().hasInternet;
-    if (hasConnection) {
+    // final hasConnection = context.read<InternetProvider>().hasInternet;
+    // if (hasConnection) {
       if (context.mounted) {
-        // final String accessToken =
-        //     Provider.of<UserDetailsProvider>(context, listen: false)
-        //         .getAccessToken();
+        final String accessToken =
+            Provider.of<UserDetailsProvider>(context, listen: false)
+                .getAccessToken();
 
         final response = await http.get(
           Uri.parse(students.isNotEmpty ? students : AuthUrl.students),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
-            // "Authorization": "Bearer $accessToken"
+            "Authorization": "Bearer $accessToken"
           },
         );
         if (response.statusCode == 200) {
@@ -40,29 +40,29 @@ class AttendanceFunctionalityStaff{
           return ErrorResponse.fromJson(jsonDecode(response.body));
         }
       }
-    } else {
-      //print('error');
-      if (context.mounted) {
-        showSnackBar(context, 'No internet connection');
-      }
-      return null;
-    }
+    // } else {
+    //   //print('error');
+    //   if (context.mounted) {
+    //     showSnackBar(context, 'No internet connection');
+    //   }
+    //   return null;
+    // }
   }
   Future fetchStaff(
       {required BuildContext context, required String staff}) async {
-    final hasConnection = context.read<InternetProvider>().hasInternet;
-    if (hasConnection) {
+    // final hasConnection = context.read<InternetProvider>().hasInternet;
+    // if (hasConnection) {
       if (context.mounted) {
-        // final String accessToken =
-        //     Provider.of<UserDetailsProvider>(context, listen: false)
-        //         .getAccessToken();
+        final String accessToken =
+            Provider.of<UserDetailsProvider>(context, listen: false)
+                .getAccessToken();
 
         final response = await http.get(
           Uri.parse(staff.isNotEmpty ? staff : AuthUrl.lecturers),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
-            // "Authorization": "Bearer $accessToken"
+            "Authorization": "Bearer $accessToken"
           },
         );
         if (response.statusCode == 200) {
@@ -74,13 +74,13 @@ class AttendanceFunctionalityStaff{
           return ErrorResponse.fromJson(jsonDecode(response.body));
         }
       }
-    } else {
-      //print('error');
-      if (context.mounted) {
-        showSnackBar(context, 'No internet connection');
-      }
-      return null;
-    }
+    // } else {
+    //   //print('error');
+    //   if (context.mounted) {
+    //     showSnackBar(context, 'No internet connection');
+    //   }
+    //   return null;
+    // }
   }
 
    Future takeAttendance(
@@ -91,7 +91,7 @@ class AttendanceFunctionalityStaff{
 
     if (hasConnection) {
       if (context.mounted) {
-        Users user = Provider.of<UserDetailsProvider>(context, listen: false)
+        LogUs user = Provider.of<UserDetailsProvider>(context, listen: false)
             .getUserDetails();
         // String accessToken =
         //     Provider.of<UserDetailsProvider>(context, listen: false)

@@ -38,37 +38,37 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
   final ApiService apiService = ApiService();
   bool _isLoading = false;
 
-  void _login() async {
-    setState(() {
-      _isLoading = true;
-    });
-    // var connectivityResult = await (Connectivity().checkConnectivity());
-    // if (connectivityResult == ConnectivityResult.none) {
-    //   setState(() {
-    //     _isLoading = false;
-    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //       content: Text(
-    //           'No internet connection. Please check your connection and try again.'),
-    //     ));
-    //   });
-    // }
-    try {
-      print(usernameController.text +
-          passwordController.text +
-          staffidController.text);
-      final response = await apiService.login(usernameController.text,
-          passwordController.text, staffidController.text);
-      // Handle the response (e.g., navigate to another page, show a success message)
-      print(response);
-    } catch (e) {
-      // Handle error (e.g., show an error message)
-      print(e.toString());
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
+  // void _login() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   // var connectivityResult = await (Connectivity().checkConnectivity());
+  //   // if (connectivityResult == ConnectivityResult.none) {
+  //   //   setState(() {
+  //   //     _isLoading = false;
+  //   //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //   //       content: Text(
+  //   //           'No internet connection. Please check your connection and try again.'),
+  //   //     ));
+  //   //   });
+  //   // }
+  //   try {
+  //     print(usernameController.text +
+  //         passwordController.text +
+  //         staffidController.text);
+  //     final response = await apiService.login(usernameController.text,
+  //         passwordController.text, staffidController.text);
+  //     // Handle the response (e.g., navigate to another page, show a success message)
+  //     print(response);
+  //   } catch (e) {
+  //     // Handle error (e.g., show an error message)
+  //     print(e.toString());
+  //   } finally {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -238,51 +238,52 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                       ? const CircularProgressIndicator()
                       : UniversalElevatedAppButton(
                           onpressed: () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
                             if (_loginFormKey.currentState!.validate()) {
                               _loginFormKey.currentState!.save();
                               print('object1');
                               // context.goNamed('/staffHome');
-                              // final loginResponse =
-                              //     await Authentications().loginSTAFF(
-                              //   context: context,
-                              //   username: username,
-                              //   password: passwordController.text.trim(),
-                              // );
-                              // print('object2');
-                              // if (loginResponse is LogUs) {
-                              //   print('object3');
-                              //   if (mounted) {
-                              //     Provider.of<UserDetailsProvider>(context,
-                              //             listen: false)
-                              //         .setLoginDetails(loginResponse);
-                              //     // context.goNamed('/staffHome');
-                              //     print('succ');
-                              //   } //////////////////////////
-                              //   else {}
-                              // } else {
-                              //   print('empty');
-                              // }
-                              // bool hasNetWork =
-                              //     await ConnectionCheck().hasConnection();
-                              // bool isConnected = await checkInternetConnectivity();
-                              // print('object2');
-                              // if (isConnected) {
-                              // print('object4');
-                              // LogUs ans =
-                              //     await KonKonsa().signInStaff(username, password);
-                              // LogUs? ans =
-                              //     await Provider.of<KonKonsa>(context, listen: false)
-                              //         .signInStaff(username, password);
-                              // print(ans);
-                              // print('object3');
-                              // } else {
-                              //   if (context.mounted) {
-                              //     showSnackBar(context, 'No internet connection');
-                              //   }
-                              // }
-                              _login();
+                              final loginResponse =
+                                  await Authentications().loginSTAFF(
+                                context: context,
+                                username: username,
+                                password: password.trim(),
+                                staffId: staffid,
+                              );
+                              if (loginResponse is LogUs) {
+                                print(loginResponse.token);
+                                if (mounted) {
+                                  Provider.of<UserDetailsProvider>(context,
+                                          listen: false)
+                                      .setAccessToken(
+                                          loginResponse.token.toString());
+                                  // context.goNamed('/staffHome');
+                                  print('suc');
+                                  Provider.of<UserDetailsProvider>(context,
+                                          listen: false)
+                                      .setUserDetails(loginResponse);
+                                  context.goNamed('/staffHome');
+                                  print('suc2');
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                } //////////////////////////
+                                else {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }
+                              }
                               print('object2');
+                              setState(() {
+                                _isLoading = false;
+                              });
                             } else {
+                              setState(() {
+                                _isLoading = false;
+                              });
                               print('nullempty');
                             }
                           },

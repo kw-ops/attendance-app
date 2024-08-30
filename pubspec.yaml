@@ -50,6 +50,7 @@ dependencies:
   geolocator: ^12.0.0
   gradient_slide_to_act: ^0.0.2
   http: ^1.2.2
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

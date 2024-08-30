@@ -1,4 +1,5 @@
 import 'package:attendance/const/funcs.dart';
+import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:flutter/gestures.dart';
@@ -27,8 +28,10 @@ String username = "";
 String password = '';
 String studentId = '';
 AuthValidate authValidate = AuthValidate();
-
+// final ApiService apiService = ApiService();
+ 
 class _SignInScreenState extends State<SignInScreen> {
+   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
@@ -127,7 +130,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           return;
                         },
                         validator: (value) =>
-                            AuthValidate().validatePassword(value),
+                            AuthValidate().validateusername(value),
                         onSaved: (value) {
                           usernameController.text = value;
                         },
@@ -146,7 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           return;
                         },
                         validator: (value) =>
-                            AuthValidate().validatePassword(value),
+                            AuthValidate().validateusername(value),
                         onSaved: (value) {
                           passwordController.text = value;
                         },
@@ -186,29 +189,59 @@ class _SignInScreenState extends State<SignInScreen> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                 ),
-                child: UniversalElevatedAppButton(
-                  onpressed: () async {
-                    if (_loginFormKey.currentState!.validate()) {
-                      _loginFormKey.currentState!.save();
-                      context.goNamed('/studentHome');
-                      final loginResponse = await Authentications().loginSTAFF(
-                        context: context,
-                        username: username,
-                        password: password.trim(),
-                        staffId: studentId,
-                      );
-                      if (loginResponse is Users) {
-                        if (mounted) {
-                          Provider.of<UserDetailsProvider>(context,
-                                  listen: false)
-                              .setUserDetails(loginResponse);
-                          context.goNamed('/staffHome');
-                          print('suc');
-                        } //////////////////////////
-                        else {}
-                      }
-                    }
-                  },
+                child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : UniversalElevatedAppButton(
+                          onpressed: () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            if (_loginFormKey.currentState!.validate()) {
+                              _loginFormKey.currentState!.save();
+                              print('object1');
+                              // context.goNamed('/staffHome');
+                              final loginResponse =
+                                  await Authentications().loginSTUDENT(
+                                context: context,
+                                username: username,
+                                password: password.trim(),
+                                studentId: studentId,
+                              );
+                              if (loginResponse is LogUs) {
+                                print(loginResponse.token);
+                                if (mounted) {
+                                  Provider.of<UserDetailsProvider>(context,
+                                          listen: false)
+                                      .setAccessToken(
+                                          loginResponse.token.toString());
+                                  // context.goNamed('/staffHome');
+                                  print('suc');
+                                  Provider.of<UserDetailsProvider>(context,
+                                          listen: false)
+                                      .setUserDetails(loginResponse);
+                                  context.goNamed('/staffHome');
+                                  print('suc2');
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                } //////////////////////////
+                                else {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }
+                              }
+                              print('object2');
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            } else {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                              print('nullempty');
+                            }
+                          },
                   text: 'Login',
                   height: Dimensions().pSH(40),
                   buttonColor: appColors.green,

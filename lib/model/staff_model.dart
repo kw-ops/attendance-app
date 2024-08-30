@@ -1,4 +1,5 @@
 import 'package:attendance/model/coursemaodel.dart';
+import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/model/users.dart';
 
 class StaffModel {
@@ -6,7 +7,7 @@ class StaffModel {
   String? name;
   String? profilePicture;
   List<CoursesModel>? courses;
-  List<Users>? users;
+  List<LogUs>? users;
 
   StaffModel({
     this.id,
@@ -24,7 +25,7 @@ class StaffModel {
     courses = ((json['courses']) as List)
         .map((e) => CoursesModel.fromJson(e))
         .toList();
-    users = ((json['users']) as List).map((e) => Users.fromJson(e)).toList();
+    users = ((json['users']) as List).map((e) => LogUs.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {

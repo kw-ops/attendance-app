@@ -1,4 +1,5 @@
 import 'package:attendance/model/coursemaodel.dart';
+import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/model/users.dart';
 
 class HistoryAttendance {
@@ -6,8 +7,8 @@ class HistoryAttendance {
   String? date;
   String? time;
   List<CoursesModel>? course;
-  List<Users>? presentStudents;
-  List<Users>? missedStudents;
+  List<LogUs>? presentStudents;
+  List<LogUs>? missedStudents;
   bool isExpanded = false;
 
   HistoryAttendance({
@@ -29,10 +30,10 @@ class HistoryAttendance {
         .map((e) => CoursesModel.fromJson(e))
         .toList();
     presentStudents = ((json['present_students']) as List)
-        .map((e) => Users.fromJson(e))
+        .map((e) => LogUs.fromJson(e))
         .toList();
     missedStudents = ((json['present_students']) as List)
-        .map((e) => Users.fromJson(e))
+        .map((e) => LogUs.fromJson(e))
         .toList();
   }
 
