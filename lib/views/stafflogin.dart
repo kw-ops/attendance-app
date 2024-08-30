@@ -1,8 +1,20 @@
+import 'package:attendance/database/konkonsa.dart';
+import 'package:attendance/model/loginuser.dart';
+import 'package:attendance/model/users.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../const/constants.dart';
 import '../const/funcs.dart';
+import '../database/auth_functions.dart';
+import '../database/error_response.dart';
+import '../database/try.dart';
+import '../database/user_details_provider.dart';
+import '../widget/default_snackbar.dart';
+import '../widget/utils/connection_check.dart';
+import '../widget/utils/internet_provider.dart';
 import '../widget/validator.dart';
 import '../widget/widgets.dart';
 
@@ -23,11 +35,47 @@ String password = '';
 String staffid = '';
 
 class _StaffSignInScreenState extends State<StaffSignInScreen> {
+  final ApiService apiService = ApiService();
+  bool _isLoading = false;
+
+  void _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+    // var connectivityResult = await (Connectivity().checkConnectivity());
+    // if (connectivityResult == ConnectivityResult.none) {
+    //   setState(() {
+    //     _isLoading = false;
+    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       content: Text(
+    //           'No internet connection. Please check your connection and try again.'),
+    //     ));
+    //   });
+    // }
+    try {
+      print(usernameController.text +
+          passwordController.text +
+          staffidController.text);
+      final response = await apiService.login(usernameController.text,
+          passwordController.text, staffidController.text);
+      // Handle the response (e.g., navigate to another page, show a success message)
+      print(response);
+    } catch (e) {
+      // Handle error (e.g., show an error message)
+      print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: appColors.white,
       body: Center(
         child: SingleChildScrollView(
@@ -39,12 +87,16 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
               children: [
                 //createSpace(size, 20, 'vertical'),
                 Container(
+                  decoration: BoxDecoration(
+                    color: appColors.greyDADADA,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   height: Dimensions().pSH(260),
                   width: Dimensions().pSW(360),
-                  color: appColors.green0001,
+                  // color: appColors.greyDADADA,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 20),
                     child: Column(
                       children: [
                         Container(
@@ -78,14 +130,15 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                               fontSize: getFontSize(14, size),
                             ),
                             children: [
-                              const TextSpan(
+                              TextSpan(
                                 text:
                                     'You can also access the Student Portal on \n your mobile phone.',
-                                style: TextStyle(),
+                                style: TextStyle(color: appColors.black),
                               ),
                               TextSpan(
                                 text: 'Download App',
-                                recognizer: TapGestureRecognizer()..onTap = () {},
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {},
                                 style: TextStyle(
                                   color: appColors.red,
                                   decoration: TextDecoration.underline,
@@ -113,6 +166,7 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                       AppTextField(
                         hintText: 'eg. username',
                         hintTextColor: appColors.black0002,
+                        controller: usernameController,
                         titleText: 'Username',
                         titleColor: appColors.black,
                         textInputType: TextInputType.emailAddress,
@@ -120,7 +174,8 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                           username = value;
                           return;
                         },
-                        validator: (value) => AuthValidate().validateEmail(value),
+                        validator: (value) =>
+                            AuthValidate().validateusername(value),
                         onSaved: (value) {
                           usernameController.text = value;
                         },
@@ -140,7 +195,7 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                           return;
                         },
                         validator: (value) =>
-                            AuthValidate().validatePassword(value),
+                            AuthValidate().validateusername(value),
                         onSaved: (value) {
                           passwordController.text = value;
                         },
@@ -159,16 +214,17 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                         titleText: 'Staff ID',
                         titleColor: appColors.black,
                         textInputType: TextInputType.number,
+                        controller: staffidController,
                         isPasswordField: true,
                         onchanged: (value) {
-                            staffid = value;
-                            return;
-                          },
-                          validator: (value) =>
-                              AuthValidate().validateNotEmpty(value),
-                          onSaved: (value) {
-                            staffidController.text = value;
-                          },
+                          staffid = value;
+                          return;
+                        },
+                        validator: (value) =>
+                            AuthValidate().validateNotEmpty(value),
+                        onSaved: (value) {
+                          staffidController.text = value;
+                        },
                       ),
                     ],
                   ),
@@ -178,17 +234,62 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                   ),
-                  child: UniversalElevatedAppButton(
-                    onpressed: () {
-                      if (_loginFormKey.currentState!.validate()) {
-                        _loginFormKey.currentState!.save();
-                        context.goNamed('/staffHome');
-                      }
-                    },
-                    text: 'Login',
-                    height: Dimensions().pSH(40),
-                    buttonColor: appColors.green,
-                  ),
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : UniversalElevatedAppButton(
+                          onpressed: () async {
+                            if (_loginFormKey.currentState!.validate()) {
+                              _loginFormKey.currentState!.save();
+                              print('object1');
+                              // context.goNamed('/staffHome');
+                              // final loginResponse =
+                              //     await Authentications().loginSTAFF(
+                              //   context: context,
+                              //   username: username,
+                              //   password: passwordController.text.trim(),
+                              // );
+                              // print('object2');
+                              // if (loginResponse is LogUs) {
+                              //   print('object3');
+                              //   if (mounted) {
+                              //     Provider.of<UserDetailsProvider>(context,
+                              //             listen: false)
+                              //         .setLoginDetails(loginResponse);
+                              //     // context.goNamed('/staffHome');
+                              //     print('succ');
+                              //   } //////////////////////////
+                              //   else {}
+                              // } else {
+                              //   print('empty');
+                              // }
+                              // bool hasNetWork =
+                              //     await ConnectionCheck().hasConnection();
+                              // bool isConnected = await checkInternetConnectivity();
+                              // print('object2');
+                              // if (isConnected) {
+                              // print('object4');
+                              // LogUs ans =
+                              //     await KonKonsa().signInStaff(username, password);
+                              // LogUs? ans =
+                              //     await Provider.of<KonKonsa>(context, listen: false)
+                              //         .signInStaff(username, password);
+                              // print(ans);
+                              // print('object3');
+                              // } else {
+                              //   if (context.mounted) {
+                              //     showSnackBar(context, 'No internet connection');
+                              //   }
+                              // }
+                              _login();
+                              print('object2');
+                            } else {
+                              print('nullempty');
+                            }
+                          },
+                          text: 'Login',
+                          height: Dimensions().pSH(40),
+                          buttonColor: appColors.green,
+                        ),
                 ),
                 createSpace(size, 15, 'vertical'),
                 RichText(

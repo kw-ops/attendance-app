@@ -1,35 +1,42 @@
-import 'package:attendance/model/history.dart';
+import 'package:attendance/model/staff_model.dart';
+import 'package:attendance/model/student_model.dart';
 
 class CoursesModel {
-  String? image;
+  int? id;
+  String? name;
   String? courseCode;
-  bool? attActive;
-  List<HistoryModel>? state;
-  bool isExpanded = false;
+  bool? active;
+  List<StudentModel>? students;
+  List<StaffModel>? lecturer;
 
   CoursesModel({
-    this.image,
+    required this.id,
+    this.name,
     this.courseCode,
-    this.attActive,
-    this.state,
-    this.isExpanded = false,
+    this.active,
+    this.students,
+    this.lecturer,
   });
 
   CoursesModel.fromJson(Map<String, dynamic> json) {
-    image = json['image'];
-    courseCode = json['transaction_type'];
-    attActive = json['date_time'];
-    state = ((json['state']) as List)
-        .map((e) => HistoryModel.fromJson(e))
+    id = json['id'];
+    name = json['name'];
+    courseCode = json['course_code'];
+    students = ((json['students']) as List)
+        .map((e) => StudentModel.fromJson(e))
+        .toList();
+    lecturer = ((json['lecturer']) as List)
+        .map((e) => StaffModel.fromJson(e))
         .toList();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['image'] = image;
-    data['transaction_type'] = courseCode;
-    data['date_time'] = attActive;
-    data['state'] = state;
+    data['id'] = id;
+    data['name'] = name;
+    data['course_code'] = courseCode;
+    data['students'] = students;
+    data['lecturer'] = lecturer;
     return data;
   }
 }

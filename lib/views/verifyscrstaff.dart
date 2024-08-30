@@ -1,3 +1,5 @@
+import 'package:attendance/views/staffattend.dart';
+import 'package:attendance/widget/utils/next_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +15,7 @@ class VerifyStaffScreen extends StatefulWidget {
   @override
   State<VerifyStaffScreen> createState() => _VerifyStaffScreenState();
 }
+
 String otpCode = '';
 TextEditingController pinCodeController = TextEditingController();
 
@@ -22,7 +25,15 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              context.goNamed('/attStaff', pathParameters: {'verCode':'0'});
+              // nextPage(context, const StaffAttendanceScreen(vrcode: ''));
+              // context.pop();
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -86,7 +97,8 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
                 ),
                 child: UniversalElevatedAppButton(
                   onpressed: () {
-                    context.goNamed('/attStaff', pathParameters: {'verCode': otpCode});
+                    context.goNamed('/attStaff',
+                        pathParameters: {'verCode': otpCode});
                   },
                   text: 'Submit',
                   buttonColor: appColors.red,

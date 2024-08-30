@@ -69,20 +69,20 @@ final GoRouter router = GoRouter(
         return const StaffSignInScreen();
       },
     ),
-    GoRoute(
-      path: '/staffHome',
-      name: '/staffHome',
-      builder: (context, state) {
-        return const BottomScreenStaff();
-      },
-    ),
-    GoRoute(
-      path: '/studentHome',
-      name: '/studentHome',
-      builder: (context, state) {
-        return const BottomScreenStudent();
-      },
-    ),
+    // GoRoute(
+    //   path: '/staffHome',
+    //   name: '/staffHome',
+    //   builder: (context, state) {
+    //     return const BottomScreenStaff();
+    //   },
+    // ),
+    // GoRoute(
+    //   path: '/studentHome',
+    //   name: '/studentHome',
+    //   builder: (context, state) {
+    //     return const BottomScreenStudent();
+    //   },
+    // ),
     GoRoute(
       path: '/',
       name: '/',

@@ -1,11 +1,5 @@
  // stage
-const BaseUrl = 'https://api.stage.linklounge.dev';
-const SocketUrl = 'wss://api.stage.linklounge.dev';
-const PushSocketUrl = 'wss://api.stage.linklounge.dev/ws/push/?token=';
-const INVITE_LINK_PREFIX_MINUS_CUSTOM_SCHEME =
-    "https://web.stage.linklounge.dev/invite/";
-const INVITE_LINK_PREFIX_PLUS_CUSTOM_SCHEME =
-    "linklounge://web.stage.linklounge.dev/invite/";
+const BaseUrl = 'http://attendacesystem.pythonanywhere.com/api';
 
 //App name
 const kAppName = "KNUST_Attendance";

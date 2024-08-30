@@ -27,7 +27,15 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              context.goNamed('/staffHome');
+              // nextPage(context, const StaffAttendanceScreen(vrcode: ''));
+              // context.pop();
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 30,
@@ -120,18 +128,18 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             GradientSlideToAct(
               width: 340,
               height: 80,
-              textStyle: TextStyle(color: Colors.white, fontSize: 15),
-              backgroundColor: Color.fromARGB(255, 23, 99, 29),
+              textStyle: TextStyle(color: appColors.red, fontSize: 15),
+              backgroundColor: appColors.white0002,
               onSubmit: () {
                 print("Submitted!");
-                context.pushNamed('/verStaff');
+                context.goNamed('/verStaff');
               },
-              gradient:const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
                   Colors.white,
-                  Color.fromARGB(255, 8, 87, 5),
+                  appColors.red,
                 ],
               ),
             ),
@@ -151,18 +159,18 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             GradientSlideToAct(
               width: 340,
               height: 80,
-              textStyle: TextStyle(color: Colors.white, fontSize: 15),
-              backgroundColor: Color.fromARGB(255, 23, 99, 29),
+              textStyle: TextStyle(color: appColors.red, fontSize: 15),
+              backgroundColor: appColors.white0002,
               onSubmit: () {
                 print("Submitted!");
-                // context.pushNamed('/verStud');
+                context.goNamed('/staffHome');
               },
-              gradient:const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
                   Colors.white,
-                  Color.fromARGB(255, 8, 87, 5),
+                  appColors.red,
                 ],
               ),
             ),

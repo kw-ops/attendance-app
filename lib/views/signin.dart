@@ -4,8 +4,12 @@ import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../const/constants.dart';
+import '../database/auth_functions.dart';
+import '../database/user_details_provider.dart';
+import '../model/users.dart';
 import '../widget/validator.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -183,10 +187,26 @@ class _SignInScreenState extends State<SignInScreen> {
                   horizontal: 20,
                 ),
                 child: UniversalElevatedAppButton(
-                  onpressed: () {
+                  onpressed: () async {
                     if (_loginFormKey.currentState!.validate()) {
                       _loginFormKey.currentState!.save();
                       context.goNamed('/studentHome');
+                      final loginResponse = await Authentications().loginSTAFF(
+                        context: context,
+                        username: username,
+                        password: password.trim(),
+                        staffId: studentId,
+                      );
+                      if (loginResponse is Users) {
+                        if (mounted) {
+                          Provider.of<UserDetailsProvider>(context,
+                                  listen: false)
+                              .setUserDetails(loginResponse);
+                          context.goNamed('/staffHome');
+                          print('suc');
+                        } //////////////////////////
+                        else {}
+                      }
                     }
                   },
                   text: 'Login',

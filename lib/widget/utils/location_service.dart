@@ -3,38 +3,6 @@ import 'package:location/location.dart';
 class LocationService {
  
 
-  // Location location = Location();
-
-  // bool? _serviceEnabled;
-  // PermissionStatus? _permissionGranted;
-  // LocationData? locationData;
-
-  // Future<dynamic> getLocation() async {
-  //   try {
-  //   _serviceEnabled = await location.serviceEnabled();
-  //   if (_serviceEnabled==false) {
-  //     _serviceEnabled = await location.requestService();
-  //     if (_serviceEnabled==false) {
-  //       return;
-  //     }
-  //   }
-
-  //   _permissionGranted = await location.hasPermission();
-  //   if (_permissionGranted == PermissionStatus.denied) {
-  //     _permissionGranted = await location.requestPermission();
-  //     if (_permissionGranted != PermissionStatus.granted) {
-  //       return;
-  //     }
-  //   }
-  //   } on Exception catch (e) {
-  //     print('Could not get location: ${e.toString()}');
-  //   }
-    
-
-  //   return locationData = await location.getLocation();
-  // }
-  
-
 /// Determine the current position of the device.
 ///
 /// When the location services are not enabled or permissions

@@ -4,7 +4,7 @@ import 'package:timeline_tile/timeline_tile.dart';
 import '../const/constants.dart';
 import '../const/funcs.dart';
 import '../model/coursemaodel.dart';
-import '../model/history.dart';
+import '../model/attendhistory.dart';
 import '../widget/widgets.dart';
 
 class HistoryStaff extends StatefulWidget {
@@ -13,70 +13,70 @@ class HistoryStaff extends StatefulWidget {
   @override
   State<HistoryStaff> createState() => _HistoryStaffState();
 }
-final List<CoursesModel> _data = [
-  CoursesModel(
-    courseCode: 'CSM 346',
-    // isExpanded: false,
-    state: [
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: true,
-      ),
-    ],
-  ),
-  CoursesModel(
-    courseCode: 'CSM 436',
-    // isExpanded: false,
-    state: [
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: false,
-      ),
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: false,
-      ),
-      HistoryModel(
-        date: '11 Jan 2024',
-        time: 'time',
-        attend: false,
-      ),
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: true,
-      ),
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: false,
-      ),
-    ],
-  ),
-  CoursesModel(
-    courseCode: 'CSM 405',
-    // isExpanded: false,
-    state: [
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: false,
-      ),
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: true,
-      ),
-      HistoryModel(
-        date: 'date',
-        time: 'time',
-        attend: false,
-      ),
-    ],
-  ),
+final List<HistoryAttendance> _data = [
+  // CoursesModel(
+  //   courseCode: 'CSM 346',
+  //   // isExpanded: false,
+  //   state: [
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: true,
+  //     ),
+  //   ],
+  // ),
+  // CoursesModel(
+  //   courseCode: 'CSM 436',
+  //   // isExpanded: false,
+  //   state: [
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: '11 Jan 2024',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: true,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //   ],
+  // ),
+  // CoursesModel(
+  //   courseCode: 'CSM 405',
+  //   // isExpanded: false,
+  //   state: [
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: true,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //   ],
+  // ),
 ];
 class _HistoryStaffState extends State<HistoryStaff> {
   @override
@@ -120,7 +120,7 @@ class _HistoryStaffState extends State<HistoryStaff> {
                     });
                   },
                   children:
-                      _data.map<ExpansionPanel>((CoursesModel coursesModel) {
+                      _data.map<ExpansionPanel>((HistoryAttendance historyAttendance) {
                     return ExpansionPanel(
                       canTapOnHeader: true,
                       headerBuilder: (BuildContext context, bool isExpanded) {
@@ -140,15 +140,16 @@ class _HistoryStaffState extends State<HistoryStaff> {
                             ),
                           ),
                           title: AppTextWidget(
-                            text: coursesModel.courseCode.toString(),
+                            // text: historyAttendance[].course[].name,
+                            text: 'historyAttendance[].course[].name',
                             fontsize: getFontSize(15, size),
                             fontWeight: FontWeight.bold,
                           ),
                         );
                       },
-                      body: coursesModel.state!.isNotEmpty
+                      body: historyAttendance.course!.isNotEmpty
                           ? ListView.builder(
-                              itemCount: coursesModel.state!.length,
+                              itemCount: historyAttendance.course!.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
@@ -160,7 +161,7 @@ class _HistoryStaffState extends State<HistoryStaff> {
                                 //     borderRadius: BorderRadius.circular(15),
                                 //   ),
                                 //   child: Text(
-                                //     coursesModel.state![index].date.toString(),
+                                //     historyAttendance.state![index].date.toString(),
                                 //   ),
                                 // );
                                 return Padding(
@@ -197,13 +198,14 @@ class _HistoryStaffState extends State<HistoryStaff> {
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                             ),
-                                            child: coursesModel.state![index].attend! ? Image.asset(presenticon)
+                                            // child: historyAttendance.course![index] ? Image.asset(presenticon)
+                                            child: true ? Image.asset(presenticon)
                                             : Image.asset(absenticon ),
                                           )
                                         ],
                                       ),
                                       // Text(
-                                      //   coursesModel.state![index].date
+                                      //   historyAttendance.state![index].date
                                       //       .toString(),
                                       // ),
                                     ),
@@ -214,7 +216,7 @@ class _HistoryStaffState extends State<HistoryStaff> {
                           : const Center(
                               child: Text('No items'),
                             ),
-                      isExpanded: coursesModel.isExpanded,
+                      isExpanded: historyAttendance.isExpanded,
                     );
                   }).toList(),
                 ),

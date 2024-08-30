@@ -1,7 +1,9 @@
 import 'package:attendance/const/funcs.dart';
+import 'package:attendance/views/attstudent.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:attendance/widget/inputs/pin_code_textfield_widget.dart';
+import 'package:attendance/widget/utils/next_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +25,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              // context.goNamed('/attStud', pathParameters: {'verCode': ''});
+              nextScreen(context, const AttendanceScreenStudent());
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -85,7 +94,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 child: UniversalElevatedAppButton(
                   onpressed: () {
-                    context.goNamed('name');
+                    context.goNamed('/attStud');
                   },
                   text: 'Submit',
                   buttonColor: appColors.red,

@@ -113,18 +113,18 @@ class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
             GradientSlideToAct(
               width: 340,
               height: 80,
-              textStyle: TextStyle(color: Colors.white, fontSize: 15),
-              backgroundColor: Color.fromARGB(255, 23, 99, 29),
+              textStyle: TextStyle(color: appColors.red, fontSize: 16,),
+              backgroundColor: appColors.white0002,
               onSubmit: () {
                 print("Submitted!");
                 context.pushNamed('/verStud');
               },
-              gradient:const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
                   Colors.white,
-                  Color.fromARGB(255, 8, 87, 5),
+                  appColors.red,
                 ],
               ),
             ),

@@ -13,6 +13,7 @@ import 'main_button.dart';
 Future<void> showMessageWithContent(
 {
   BuildContext? context,
+  String? headerMessage,
   String? message,
   Widget? content,
   required Function onTapYes,
@@ -27,8 +28,8 @@ Future<void> showMessageWithContent(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const AppTextWidget(
-              text: 'System Message',
+            title: AppTextWidget(
+              text: headerMessage ??'System Message',
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontsize: 19,
@@ -74,8 +75,8 @@ Future<void> showMessageWithContent(
     await showCupertinoDialog<bool>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        title:  const AppTextWidget(
-          text: 'System Message',
+        title:  AppTextWidget(
+          text: headerMessage ??'System Message',
           color: Colors.black,
           fontWeight: FontWeight.w600,
           fontsize: 19,
@@ -124,40 +125,40 @@ void hideLoader(BuildContext context) {
   Navigator.of(context).pop();
 }
 
-// copy to clipboard
-void copyToClipboard(BuildContext context, String number) {
-  Clipboard.setData(
-    ClipboardData(text: number),
-  ).then((value) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: appColors.green,
-        content: AppTextWidget(
-          text: 'Copied to clipboard.',
-          fontsize: 12,
-          fontWeight: FontWeight.w500,
-          color: appColors.white,
-        ),
-      ),
-    );
-  });
-}
+// // copy to clipboard
+// void copyToClipboard(BuildContext context, String number) {
+//   Clipboard.setData(
+//     ClipboardData(text: number),
+//   ).then((value) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(
+//         backgroundColor: appColors.green,
+//         content: AppTextWidget(
+//           text: 'Copied to clipboard.',
+//           fontsize: 12,
+//           fontWeight: FontWeight.w500,
+//           color: appColors.white,
+//         ),
+//       ),
+//     );
+//   });
+// }
 
-// PopupMenuItem for PopupMenuButton
-PopupMenuItem<dynamic> popupItem({
-  required String title,
-  required Function() onTap,
-  Color? textColor,
-}) {
-  return PopupMenuItem(
-    onTap: onTap,
-    child: Text(
-      title,
-      style: TextStyle(
-        color: textColor ?? appColors.grey6A7187,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
-  );
-}
+// // PopupMenuItem for PopupMenuButton
+// PopupMenuItem<dynamic> popupItem({
+//   required String title,
+//   required Function() onTap,
+//   Color? textColor,
+// }) {
+//   return PopupMenuItem(
+//     onTap: onTap,
+//     child: Text(
+//       title,
+//       style: TextStyle(
+//         color: textColor ?? appColors.grey6A7187,
+//         fontSize: 14,
+//         fontWeight: FontWeight.w500,
+//       ),
+//     ),
+//   );
+// }
