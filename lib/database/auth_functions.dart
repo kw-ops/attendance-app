@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:attendance/model/loginuser.dart';
-import 'package:attendance/model/users.dart';
+// import 'package:attendance/model/users.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widget/default_snackbar.dart';
-import '../widget/utils/connection_check.dart';
-import '../widget/utils/internet_provider.dart';
-import 'auth_url.dart';
+// import '../widget/utils/connection_check.dart';
+// import '../widget/utils/internet_provider.dart';
+// import 'auth_url.dart';
 import 'error_response.dart';
 
 const apiHeader = {
@@ -48,9 +48,9 @@ class Authentications {
         LogUs user = LogUs.fromJson(jsonDecode(response.body));
         print(user);
         // //Successful login
-        final shareToken = user.token;
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('shareToken', shareToken.toString());
+        // final shareToken = user.token;
+        // final prefs = await SharedPreferences.getInstance();
+        // await prefs.setString('shareToken', shareToken.toString());
         // userSecureStorage(
         //     user, keepLoggedIn, json.decode(response.body)['user']);
         // //
@@ -100,9 +100,9 @@ class Authentications {
         if (response.statusCode == 200) {
           LogUs user = LogUs.fromJson(jsonDecode(response.body));
           // //Successful login
-          final shareToken = user.token;
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('shareToken', shareToken.toString());
+          // final shareToken = user.token;
+          // final prefs = await SharedPreferences.getInstance();
+          // await prefs.setString('shareToken', shareToken.toString());
           // userSecureStorage(
           //     user, keepLoggedIn, json.decode(response.body)['user']);
           // //

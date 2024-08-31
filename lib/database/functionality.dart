@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:attendance/database/auth_url.dart';
 import 'package:attendance/model/loginuser.dart';
-import 'package:attendance/model/users.dart';
+// import 'package:attendance/model/users.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import '../widget/default_snackbar.dart';
-import '../widget/utils/connection_check.dart';
+// import '../widget/default_snackbar.dart';
+// import '../widget/utils/connection_check.dart';
 import '../widget/utils/internet_provider.dart';
 import 'error_response.dart';
 import 'http_response_model.dart';

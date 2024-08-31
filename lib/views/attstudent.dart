@@ -1,6 +1,6 @@
 import 'package:attendance/const/funcs.dart';
-import 'package:attendance/views/slider.dart';
-import 'package:attendance/views/verifyscrstud.dart';
+// import 'package:attendance/views/slider.dart';
+// import 'package:attendance/views/verifyscrstud.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/utils/utils.dart';
 import 'package:flutter/material.dart';

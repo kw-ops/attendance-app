@@ -15,78 +15,15 @@ class HistoryScreenStudent extends StatefulWidget {
   State<HistoryScreenStudent> createState() => _HomeScreenStudentState();
 }
 
-final List<HistoryAttendance> _data = [
-  // CoursesModel(
-  //   courseCode: 'CSM 346',
-  //   // isExpanded: false,
-  //   state: [
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: true,
-  //     ),
-  //   ],
-  // ),
-  // CoursesModel(
-  //   courseCode: 'CSM 436',
-  //   // isExpanded: false,
-  //   state: [
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: false,
-  //     ),
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: false,
-  //     ),
-  //     HistoryModel(
-  //       date: '11 Jan 2024',
-  //       time: 'time',
-  //       attend: false,
-  //     ),
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: true,
-  //     ),
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: false,
-  //     ),
-  //   ],
-  // ),
-  // CoursesModel(
-  //   courseCode: 'CSM 405',
-  //   // isExpanded: false,
-  //   state: [
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: false,
-  //     ),
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: true,
-  //     ),
-  //     HistoryModel(
-  //       date: 'date',
-  //       time: 'time',
-  //       attend: false,
-  //     ),
-  //   ],
-  // ),
-];
+final List<HistoryAttendance> _data = [];
 
 class _HomeScreenStudentState extends State<HistoryScreenStudent> {
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return  
+    Scaffold(
       appBar: AppBar(
         backgroundColor: appColors.red,
         //toolbarHeight: Dimensions().pSH(100),
@@ -150,9 +87,11 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                           ),
                         );
                       },
-                      body: studentModel.state!.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: studentModel.state!.length,
+                      body: 
+                      // body: studentModel.state!.isNotEmpty ?
+                           ListView.builder(
+                              itemCount: 0,
+                              // itemCount: studentModel.state!.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
@@ -201,8 +140,9 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                             ),
-                                            child: studentModel.state![index].attend! ? Image.asset(presenticon)
-                                            : Image.asset(absenticon ),
+                                            child:
+                                            // child: studentModel.state![index].attend! ? Image.asset(presenticon)  :
+                                            Image.asset(absenticon ),
                                           )
                                         ],
                                       ),
@@ -214,10 +154,10 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                                   ),
                                 );
                               },
-                            )
-                          : const Center(
-                              child: Text('No items'),
                             ),
+                          // : const Center(
+                          //     child: Text('No items'),
+                          //   ),
                       isExpanded: studentModel.isExpanded,
                     );
                   }).toList(),

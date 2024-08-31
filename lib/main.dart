@@ -27,9 +27,9 @@ void main() {
         ChangeNotifierProvider(
           create: ((context) => InternetProvider()),
         ),
-        ChangeNotifierProvider(
-          create: ((context) => KonKonsa()),
-        ),
+        // ChangeNotifierProvider(
+        //   create: ((context) => KonKonsa()),
+        // ),
       ],
       child: const MyApp(),
     ),

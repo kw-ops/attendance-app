@@ -1,6 +1,8 @@
 import 'package:attendance/model/coursemaodel.dart';
 import 'package:attendance/model/location.dart';
+import 'package:attendance/model/student_model.dart';
 import 'package:attendance/views/attstudent.dart';
+import 'package:attendance/views/shimmerContainer.dart';
 import 'package:attendance/views/verifyscrstud.dart';
 import 'package:attendance/widget/avatorwidget.dart';
 import 'package:attendance/widget/utils/haptic_utils.dart';
@@ -9,9 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:provider/provider.dart';
 
 import '../const/constants.dart';
 import '../const/funcs.dart';
+import '../database/konkonsa.dart';
+import '../database/user_details_provider.dart';
 import '../widget/widgets.dart';
 
 class HomeScreenStudent extends StatefulWidget {
@@ -65,12 +70,28 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
           _supportState = isSupported;
         }));
   }
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
+    final fetchStudent = KonKonsa().getUserDataStudent(context);
+    print(fetchStudent);
+    if (fetchStudent is StudentModel) {
+      if (mounted) {
+        Provider.of<UserDetailsProvider>(context).getStudentDetails();
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        
+      }
+    } else {
+      
+    }
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return  isLoading ? const ShimmerWidget(child: name()) :
+    Scaffold(
       appBar: AppBar(
         title: Center(
           child: AppTextWidget(
@@ -124,7 +145,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AvatorWidget(
-                            image:" _courseCard[index].image!",
+                            image:pic1,
                             height: Dimensions().pSH(70),
                             width: Dimensions().pSW(70)),
                         AppTextWidget(
