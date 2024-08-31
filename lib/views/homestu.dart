@@ -27,38 +27,7 @@ class HomeScreenStudent extends StatefulWidget {
 }
 
 class _HomeScreenStudentState extends State<HomeScreenStudent> {
-  final List<CoursesModel> _courseCard = [
-    // CoursesModel(
-    //   image: pic1,
-    //   courseCode: 'CSM 467',
-    //   attActive: true,
-    // ),
-    // CoursesModel(
-    //   image: pic2,
-    //   courseCode: 'CSM 481',
-    //   attActive: false,
-    // ),
-    // CoursesModel(
-    //   image: pic3,
-    //   courseCode: 'CSM 411',
-    //   attActive: false,
-    // ),
-    // CoursesModel(
-    //   image: pic4,
-    //   courseCode: 'CSM 247',
-    //   attActive: false,
-    // ),
-    // CoursesModel(
-    //   image: pic5,
-    //   courseCode: 'CSM 246',
-    //   attActive: false,
-    // ),
-    // CoursesModel(
-    //   image: pic6,
-    //   courseCode: 'CSM 347',
-    //   attActive: false,
-    // ),
-  ];
+  final List<CoursesModel> _courseCard = [ ];
   late final LocalAuthentication auth;
   bool _supportState = false;
 
@@ -104,24 +73,24 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
       ),
       body: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: _courseCard.length,
+          itemCount: StudentModel().courses!.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(20),
               child: GestureDetector(
                 onTap: () {
-                  // if (_courseCard[index].attActive == true) {
-                  //   context.goNamed('/attStud');
-                  //   _authenticate();
-                  //   // LocationService()
-                  //   //     .getLocation()
-                  //   //     .then((value) => print(value));
-                  //   LocationService()
-                  //     .determinePosition()
-                  //     .then((value) => print(value));
-                  // } else {
-                  //   HapticUtils.vibrate();
-                  // }
+                  if ( StudentModel().courses![index].active == true) {
+                    // context.goNamed('/attStud');
+                    _authenticate();
+                    // LocationService()
+                    //     .getLocation()
+                    //     .then((value) => print(value));
+                    LocationService()
+                      .determinePosition()
+                      .then((value) => print(value));
+                  } else {
+                    HapticUtils.vibrate();
+                  }
                 },
                 child: Container(
                   height: Dimensions().pSH(70),
@@ -145,11 +114,11 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AvatorWidget(
-                            image:pic1,
+                            image:StudentModel().courses![index].lecturer![0].profilePicture!,
                             height: Dimensions().pSH(70),
                             width: Dimensions().pSW(70)),
                         AppTextWidget(
-                          text: _courseCard[index].courseCode!,
+                          text: StudentModel().courses![index].toString(),
                           fontsize: getFontSize(24, size),
                           fontWeight: FontWeight.bold,
                         ),
@@ -158,15 +127,15 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                           activeTrackColor: appColors.green0001,
                           inactiveTrackColor: appColors.red,
                           inactiveThumbColor: appColors.white,
-                          // value: _courseCard[index].attActive!,
-                          value: true,
+                          value: StudentModel().courses![index].active!,
+                          // value: true,
                           onChanged: (val) {
-                            // setState(
-                            //   () {
-                            //     _courseCard[index].attActive =
-                            //         _courseCard[index].attActive;
-                            //   },
-                            // );
+                            setState(
+                              () {
+                                StudentModel().courses![index].active =
+                                    StudentModel().courses![index].active;
+                              },
+                            );
                           },
                         ),
                       ],

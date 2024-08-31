@@ -48,7 +48,10 @@ class _SignInScreenState extends State<SignInScreen> {
               Container(
                 height: Dimensions().pSH(260),
                 width: Dimensions().pSW(360),
-                color: appColors.green0001,
+                decoration: BoxDecoration(
+                          color: appColors.greyDADADA,
+                          borderRadius: BorderRadius.circular(15),
+                        ), 
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -85,10 +88,12 @@ class _SignInScreenState extends State<SignInScreen> {
                             fontSize: getFontSize(14, size),
                           ),
                           children: [
-                            const TextSpan(
+                            TextSpan(
                               text:
                                   'You can also access the Student Portal on \n your mobile phone.',
-                              style: TextStyle(),
+                              style: TextStyle(
+                                color: appColors.black,
+                              ),
                             ),
                             TextSpan(
                               text: 'Download App',

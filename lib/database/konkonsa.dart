@@ -28,7 +28,7 @@ class KonKonsa {
       print('object${user.id}');
       final response = await http.get(
           Uri.parse(
-              "http://attendacesystem.pythonanywhere.com/api/students/?id=${user.id}"),
+              "http://attendacesystem.pythonanywhere.com/api/students/my-courses/?id=${user.id.toString()}"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
@@ -59,11 +59,11 @@ class KonKonsa {
       print('object${user.id}');
       final response = await http.get(
           Uri.parse(
-              "http://attendacesystem.pythonanywhere.com/api/lecturers/?id=${user.id}"),
+              "http://attendacesystem.pythonanywhere.com/api/lecturers/${user.id.toString()}/"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
-            "Authorization": "Bearer $accessToken"
+            "Authorization": "Token $accessToken"
           });
 
       if (response.statusCode == 200) {
