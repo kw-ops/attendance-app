@@ -220,7 +220,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       .setAccessToken(
                                           loginResponse.token.toString());
                                   // context.goNamed('/staffHome');
-                                  print('suc');
+                                  print('suc${loginResponse.token}');
                                   Provider.of<UserDetailsProvider>(context,
                                           listen: false)
                                       .setUserDetails(loginResponse);

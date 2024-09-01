@@ -38,37 +38,6 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
   final ApiService apiService = ApiService();
   bool _isLoading = false;
 
-  // void _login() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //   // var connectivityResult = await (Connectivity().checkConnectivity());
-  //   // if (connectivityResult == ConnectivityResult.none) {
-  //   //   setState(() {
-  //   //     _isLoading = false;
-  //   //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //   //       content: Text(
-  //   //           'No internet connection. Please check your connection and try again.'),
-  //   //     ));
-  //   //   });
-  //   // }
-  //   try {
-  //     print(usernameController.text +
-  //         passwordController.text +
-  //         staffidController.text);
-  //     final response = await apiService.login(usernameController.text,
-  //         passwordController.text, staffidController.text);
-  //     // Handle the response (e.g., navigate to another page, show a success message)
-  //     print(response);
-  //   } catch (e) {
-  //     // Handle error (e.g., show an error message)
-  //     print(e.toString());
-  //   } finally {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

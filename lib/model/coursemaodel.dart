@@ -7,10 +7,10 @@ class CoursesModel {
   String? courseCode;
   bool? active;
   List<StudentModel>? students;
-  List<StaffModel>? lecturer;
+  StaffModel? lecturer;
 
   CoursesModel({
-    required this.id,
+    this.id,
     this.name,
     this.courseCode,
     this.active,
@@ -25,9 +25,7 @@ class CoursesModel {
     students = ((json['students']) as List)
         .map((e) => StudentModel.fromJson(e))
         .toList();
-    lecturer = ((json['lecturer']) as List)
-        .map((e) => StaffModel.fromJson(e))
-        .toList();
+    lecturer = StaffModel.fromJson(json['lecturer']);
   }
 
   Map<String, dynamic> toJson() {

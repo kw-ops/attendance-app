@@ -1,20 +1,20 @@
 import 'package:attendance/model/coursemaodel.dart';
 import 'package:attendance/model/loginuser.dart';
-// import 'package:attendance/model/users.dart';
+// import 'package:attendance/model/user.dart';
 
 class StaffModel {
   int? id;
   String? name;
   String? profilePicture;
-  List<CoursesModel>? courses;
-  List<LogUs>? users;
+  List<dynamic>? courses;
+  LogUs? user;
 
   StaffModel({
     this.id,
     this.name,
     this.profilePicture,
     this.courses,
-    this.users,
+    this.user,
   });
 
   StaffModel.fromJson(Map<String, dynamic> json) {
@@ -22,10 +22,8 @@ class StaffModel {
     name = json['name'];
     profilePicture = json['profile_picture'];
     // attActive = json['date_time'];
-    courses = ((json['courses']) as List)
-        .map((e) => CoursesModel.fromJson(e))
-        .toList();
-    users = ((json['users']) as List).map((e) => LogUs.fromJson(e)).toList();
+    courses = json['courses'];
+    user = LogUs.fromJson(json['user']);
   }
 
   Map<String, dynamic> toJson() {
@@ -35,7 +33,7 @@ class StaffModel {
     data['profile_picture'] = profilePicture;
     // data['date_time'] = attActive;
     data['courses'] = courses;
-    data['users'] = users;
+    data['user'] = user;
     return data;
   }
 }

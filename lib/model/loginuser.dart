@@ -22,11 +22,11 @@ class LogUs {
   LogUs.fromJson(Map<String, dynamic> json) {
     id = json['user_id'];
     username = json['username'] ;
-    email = json['email'];
+    email = json['email'] ?? '';
     password = json['password'];
     token = json['token'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
+    firstName = json['first_name'] ?? '';
+    lastName = json['last_name'] ?? '';
     staffId = json['staff_id'];
   }
 

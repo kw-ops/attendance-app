@@ -1,21 +1,24 @@
+import 'package:attendance/model/coursemaodel.dart';
 import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/model/staff_model.dart';
-import 'package:attendance/model/student_model.dart';
+// import 'package:attendance/model/student_model.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   // ignore: prefer_final_fields
   LogUs? _user;
-  StudentModel? _userAsStudent;
+  List<CoursesModel> _userAsCourses = [] ;
   StaffModel? _userAsStaff;
   String? _accessToken;
 
   LogUs getUserDetails() {
     return _user ?? LogUs();
   }
-  StudentModel getStudentDetails() {
-    return _userAsStudent ?? StudentModel();
+
+  List<CoursesModel> getCourseDetails() {
+    return _userAsCourses ;
   }
+
   StaffModel getStaffDetails() {
     return _userAsStaff ?? StaffModel();
   }
@@ -24,10 +27,12 @@ class UserDetailsProvider extends ChangeNotifier {
     _user = user;
     notifyListeners();
   }
-  void setStudentDetails(StudentModel userAsStudent) {
-    _userAsStudent = userAsStudent;
+
+  void setCourseDetails(List<CoursesModel> userAsStudent) {
+    _userAsCourses = userAsStudent;
     notifyListeners();
   }
+
   void setStaffDetails(StaffModel userAsStaff) {
     _userAsStaff = userAsStaff;
     notifyListeners();

@@ -26,12 +26,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              // context.goNamed('/attStud', pathParameters: {'verCode': ''});
-              nextScreen(context, const AttendanceScreenStudent());
-            },
-            icon: const Icon(Icons.arrow_back_ios)),
+        // leading: IconButton(
+        //     onPressed: () {
+        //       // context.goNamed('/attStud', pathParameters: {'verCode': ''});
+        //       nextScreen(context, const AttendanceScreenStudent());
+        //     },
+        //     icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: SingleChildScrollView(
         child: Center(

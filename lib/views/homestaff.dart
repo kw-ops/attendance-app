@@ -5,6 +5,7 @@ import 'package:attendance/model/users.dart';
 import 'package:attendance/views/shimmerContainer.dart';
 import 'package:attendance/views/staffattend.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
@@ -19,48 +20,57 @@ import '../widget/widgets.dart';
 class HomeStaffScreen extends StatefulWidget {
   const HomeStaffScreen({super.key});
 
+  
+
   @override
   State<HomeStaffScreen> createState() => _HomeStaffScreenState();
+
 }
+
+  String courseName = '';
+  String courseCode = '';
+  String lecturerName = '';
+  String welcomeName = '';
+  String lecturerPicture = '';
 
 late UserDetailsProvider currentUser;
 
 class _HomeStaffScreenState extends State<HomeStaffScreen> {
   final List<StaffModel> staffModel = [];
   late final LocalAuthentication auth;
+  bool isLoading = false;
   bool _supportState = false;
+
+  Future loadpage() async {
+    setState(() {
+      isLoading = true;
+    });
+    KonKonsa().getUserDataStaff(context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  
 
   @override
   void initState() {
     super.initState();
     currentUser = context.read<UserDetailsProvider>();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      loadpage();
+    });
     auth = LocalAuthentication();
     auth.isDeviceSupported().then((bool isSupported) => setState(() {
           _supportState = isSupported;
         }));
   }
 
-  bool isLoading = true;
-
   @override
   Widget build(BuildContext context) {
-    final fetchStaff = KonKonsa().getUserDataStaff(context);
-    print('${fetchStaff} succ');
-    if (fetchStaff is StaffModel) {
-      if (mounted) {
-        Provider.of<UserDetailsProvider>(context).getStaffDetails();
-        print('ok');
-        setState(() {
-          isLoading = false;
-          print('end');
-        });
-      } else {}
-    } else {}
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    // LogUs currentUser =
-    //     Provider.of<UserDetailsProvider>(context, listen: false)
-    //         .getUserDetails();
+    print(currentUser);
     return isLoading
         ? const ShimmerWidget(child: name())
         : Scaffold(
@@ -74,58 +84,71 @@ class _HomeStaffScreenState extends State<HomeStaffScreen> {
                 ),
               ),
             ),
-            body: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: StaffModel().courses!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: GestureDetector(
-                      onTap: () {
-                        _authenticate();
-                        // LocationService().getLocation().then((value) => print(value));
-                        LocationService()
-                            .determinePosition()
-                            .then((value) => print(value));
-                        context.pushNamed('/attStaff',
-                            pathParameters: {'verCode': '0'});
-                      },
-                      child: Container(
-                        height: Dimensions().pSH(70),
-                        width: Dimensions().pSW(350),
-                        decoration: BoxDecoration(
-                          color: appColors.white,
-                          borderRadius: BorderRadius.circular(40),
-                          boxShadow: [
-                            BoxShadow(
-                              color: appColors.black0002,
-                              offset: const Offset(1, 3),
-                              blurRadius: 2,
-                              spreadRadius: 2,
-                            )
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 0, right: 10, bottom: 0, left: 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              AppTextWidget(
-                                text: StaffModel()
-                                    .courses![index]
-                                    .name
-                                    .toString(),
+            body: Consumer<UserDetailsProvider>(
+                builder: (context, currentUser, child) {
+              final courses = currentUser.getCourseDetails();
+              return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: courses.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final _course = courses[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: GestureDetector(
+                        onTap: () {
+                          _authenticate();
+                          // LocationService().getLocation().then((value) => print(value));
+                          LocationService()
+                              .determinePosition()
+                              .then((value) => print(value));
+                      
+                          welcomeName =_course.lecturer!.name.toString();
+                          courseCode =_course.courseCode.toString();
+                          courseName =_course.name.toString();
+                          lecturerName =_course.lecturer!.name.toString();
+                          lecturerPicture =_course.lecturer!.profilePicture.toString();
+                          welcomeName =_course.lecturer!.name.toString();
+                          context.pushNamed('/verStaff', pathParameters: {
+                            
+                            'welcomeName': welcomeName,
+                            'courseCode': courseCode,
+                            'courseName': courseName,
+                            'lecturerName': lecturerName,
+                            'lecturerPicture': lecturerPicture,
+                          });
+                        },
+                        child: Container(
+                          height: Dimensions().pSH(80),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: appColors.white,
+                            borderRadius: BorderRadius.circular(40),
+                            boxShadow: [
+                              BoxShadow(
+                                color: appColors.black0002.withOpacity(0.5),
+                                offset: const Offset(1, 3),
+                                blurRadius: 2,
+                                spreadRadius: 2,
+                              )
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 5, right: 20, bottom: 5, left: 20),
+                            child: Center(
+                              child: AppTextWidget(
+                                textAlign: TextAlign.center,
+                                text: _course.name.toString(),
                                 fontsize: getFontSize(24, size),
                                 fontWeight: FontWeight.bold,
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  });
+            }),
           );
   }
 

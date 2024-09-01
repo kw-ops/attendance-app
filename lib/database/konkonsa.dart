@@ -1,5 +1,6 @@
 import 'dart:convert';
 // import 'dart:math';
+import 'package:attendance/model/coursemaodel.dart';
 import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/model/staff_model.dart';
 import 'package:attendance/model/student_model.dart';
@@ -17,18 +18,18 @@ import 'user_details_provider.dart';
 // };
 
 class KonKonsa {
-  Future<dynamic> getUserDataStudent(BuildContext context) async {
+  Future<List<CoursesModel>?> getUserDataStudent(BuildContext context) async {
     if (context.mounted) {
-      LogUs user = Provider.of<UserDetailsProvider>(context, listen: false)
-          .getUserDetails();
+      // LogUs user = Provider.of<UserDetailsProvider>(context, listen: false)
+      //     .getUserDetails();
       String accessToken =
           Provider.of<UserDetailsProvider>(context, listen: false)
               .getAccessToken();
-              print('object${accessToken}');
-      print('object${user.id}');
+      print('object${accessToken}');
+      // print('object${user.id}');
       final response = await http.get(
           Uri.parse(
-              "http://attendacesystem.pythonanywhere.com/api/students/my-courses/?id=${user.id.toString()}"),
+              "http://attendacesystem.pythonanywhere.com/api/api/student-enrolled-courses/"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
@@ -37,10 +38,14 @@ class KonKonsa {
 
       if (response.statusCode == 200) {
         // Process the response
-        StudentModel userAsStudent =
-            StudentModel.fromJson(jsonDecode(response.body));
-        print('Response data: ${userAsStudent}');
-        return userAsStudent;
+        List<dynamic> data = json.decode(response.body);
+        print(data);
+        //
+        final userAsCourse =
+            data.map((json) => CoursesModel.fromJson(json)).toList();
+        Provider.of<UserDetailsProvider>(context, listen: false)
+            .setCourseDetails(userAsCourse);
+        return userAsCourse;
       } else {
         // Handle the error
         print('Request failed with status: ${response.statusCode}');
@@ -48,108 +53,35 @@ class KonKonsa {
     }
   }
 
-  Future<dynamic> getUserDataStaff(BuildContext context) async {
+  Future<List<CoursesModel>?> getUserDataStaff(BuildContext context) async {
     if (context.mounted) {
-      LogUs user = Provider.of<UserDetailsProvider>(context, listen: false)
-          .getUserDetails();
       String accessToken =
           Provider.of<UserDetailsProvider>(context, listen: false)
               .getAccessToken();
       print('object${accessToken}');
-      print('object${user.id}');
       final response = await http.get(
           Uri.parse(
-              "http://attendacesystem.pythonanywhere.com/api/lecturers/${user.id.toString()}/"),
+              "http://attendacesystem.pythonanywhere.com/api/lecturers/my-courses/"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
-            "Authorization": "Token $accessToken"
+            "Authorization": "Bearer $accessToken"
           });
 
       if (response.statusCode == 200) {
-        // Process the response
-        StaffModel userAsStaff = StaffModel.fromJson(jsonDecode(response.body));
-        print('Response data: ${userAsStaff}');
-        return userAsStaff;
+        List<dynamic> data = json.decode(response.body);
+        print(data);
+        //
+        final userAsCourse =
+            data.map((json) => CoursesModel.fromJson(json)).toList();
+        Provider.of<UserDetailsProvider>(context, listen: false)
+            .setCourseDetails(userAsCourse);
+        return userAsCourse;
+        // return data.map((json) => CoursesModel.fromJson(json)).toList();
       } else {
         // Handle the error
         print('Request failed with status: ${response.statusCode}');
       }
     }
   }
-
-//   bool isLoading = true;
-//   String error = '';
-//   List<StudentModel> studentModel = [];
-
-//   Future<List<StudentModel>> getstudentData() async {
-//     try {
-//       Response response =
-//           await http.get(Uri.parse(AuthUrl.students), headers: apiHeader);
-//       if (response.statusCode == 200) {
-//         studentModel = StudentModel.fromJson(json.decode(response.body))
-//             as List<StudentModel>;
-//       } else {
-//         error = response.statusCode.toString();
-//       }
-//     } catch (e) {
-//       error = e.toString();
-//     }
-//     isLoading = false;
-//     notifyListeners;
-//     return studentModel;
-//   }
-
-// //   Future signInStaff() async {
-// //     try {
-// //       Response response =
-// //           await http.post(Uri.parse(AuthUrl.loginStaff), headers: apiHeader);
-// //       if (response.statusCode == 200) {
-// //         studentModel = StudentModel.fromJson(json.decode(response.body))
-// //             as List<StudentModel>;
-// //       } else {
-// //         error = response.statusCode.toString();
-// //       }
-// //     } catch (e) {
-// //       error = e.toString();
-// //     }
-// //     isLoading = false;
-// //     notifyListeners;
-// //   }
-// // }
-
-//   Future<LogUs> signInStudent(String username, String password) async {
-//     Map<String, dynamic> request = {
-//       'username': username,
-//       'password': password,
-//     };
-//     final uri = Uri.parse(AuthUrl.loginStud);
-//     final response = await http.post(uri, body: request);
-//     if (response.statusCode == 201) {
-//       return LogUs.fromJson(json.decode(response.body));
-//     } else {
-//       throw Exception('Failed to load post');
-//     }
-//   }
-
-//   Future<LogUs?> signInStaff(String username, String password) async {
-//     Map<String, dynamic> request = {
-//       'username': username,
-//       'password': password,
-//     };
-//     try {
-//       final uri = Uri.parse(
-//           'https://attendance-systen-6a30.onrender.com/api/login/staff/');
-//       final response = await http.post(uri, headers: apiHeader,body: jsonEncode(request));
-//       if (response.statusCode == 200) {
-//        print('Response: ${response.body}');
-//        return LogUs.fromJson(json.decode(response.body));
-//       }
-//       else {
-//        print('Failed with status: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
 }

@@ -1,12 +1,9 @@
 import 'package:attendance/views/homestaff.dart';
-import 'package:attendance/views/slider.dart';
 import 'package:attendance/views/verifyscrstaff.dart';
-import 'package:attendance/views/verifyscrstud.dart';
 import 'package:attendance/widget/utils/date_time_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradient_slide_to_act/gradient_slide_to_act.dart';
-
 import '../const/constants.dart';
 import '../const/funcs.dart';
 import '../widget/widgets.dart';
@@ -14,7 +11,12 @@ import '../widget/widgets.dart';
 class StaffAttendanceScreen extends StatefulWidget {
   const StaffAttendanceScreen({
     super.key,
-    required String vrcode,
+    required String vercode,
+    required String welcomeName,
+    required String courseCode,
+    required String lecturerName,
+    required String lecturerPicture,
+    required String courseName,
   });
 
   @override
@@ -22,10 +24,30 @@ class StaffAttendanceScreen extends StatefulWidget {
 }
 
 class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
+  // bool isLoading = false;
+  // Future loadpage() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   KonKonsa().getUserDataStaff(context);
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
+
+  // void initState() {
+  //   super.initState();
+  //   currentUser = context.read<UserDetailsProvider>();
+  //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+  //     loadpage();
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
+    // print(currentUser);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -50,7 +72,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               color: appColors.red,
             ),
             AppTextWidget(
-              text: 'Kwaku Amanin',
+              text: welcomeName,
               fontsize: getFontSize(28, size),
             ),
             createSpace(size, 30, 'vertical'),
@@ -132,7 +154,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               backgroundColor: appColors.white0002,
               onSubmit: () {
                 print("Submitted!");
-                context.goNamed('/verStaff');
+                context.pushNamed('/verStaff');
               },
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -146,7 +168,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             createSpace(size, 25, 'vertical'),
             Center(
               child: AppTextWidget(
-                text: otpCode,
+                text: verCode,
                 fontsize: getFontSize(22, size),
                 color: appColors.black,
               ),

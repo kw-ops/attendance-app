@@ -98,18 +98,41 @@ final GoRouter router = GoRouter(
     //   },
     // ),
     GoRoute(
-      path: '/attStaff/:verCode',
+      path: '/attStaff/:verCode/:welcomeName/:courseCode/:lecturerName/:courseName/:lecturerPicture',
       name: '/attStaff',
       builder: (context, state) {
-        final String vrcode = state.pathParameters['verCode']!;
-        return StaffAttendanceScreen(vrcode : vrcode);
+        final String verCode = state.pathParameters['verCode']!;
+        final String welcomeName = state.pathParameters['welcomeName']!;
+        final String courseCode = state.pathParameters['courseCode']!;
+        final String lecturerName = state.pathParameters['lecturerName']!;
+        final String courseName = state.pathParameters['courseName']!;
+        final String lecturerPicture = state.pathParameters['lecturerPicture']!;
+        return StaffAttendanceScreen(vercode: verCode,
+         welcomeName: welcomeName,
+          courseCode: courseCode,
+          lecturerName: lecturerName,
+          courseName: courseName,
+          lecturerPicture: lecturerPicture,
+        );
       },
     ),
     GoRoute(
-      path: '/attStud',
+      path: '/attStud/:verCode/:welcomeName/:courseCode/:lecturerName/:courseName/:lecturerPicture',
       name: '/attStud',
       builder: (context, state) {
-        return const AttendanceScreenStudent();
+        final String verCode = state.pathParameters['verCode']!;
+        final String welcomeName = state.pathParameters['welcomeName']!;
+        final String courseCode = state.pathParameters['courseCode']!;
+        final String lecturerName = state.pathParameters['lecturerName']!;
+        final String courseName = state.pathParameters['courseName']!;
+        final String lecturerPicture = state.pathParameters['lecturerPicture']!;
+        return AttendanceScreenStudent(verCode : verCode,
+         welcomeName: welcomeName,
+          courseCode: courseCode,
+          lecturerName: lecturerName,
+          courseName: courseName,
+          lecturerPicture: lecturerPicture,
+        );
       },
     ),
   ],

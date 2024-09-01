@@ -10,7 +10,7 @@ import 'package:gradient_slide_to_act/gradient_slide_to_act.dart';
 import '../const/constants.dart';
 
 class AttendanceScreenStudent extends StatefulWidget {
-  const AttendanceScreenStudent({super.key});
+  const AttendanceScreenStudent({super.key, required String verCode, required String welcomeName, required String courseCode, required String lecturerName, required String courseName, required String lecturerPicture,});
 
   @override
   State<AttendanceScreenStudent> createState() =>

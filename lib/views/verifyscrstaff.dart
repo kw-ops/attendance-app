@@ -16,7 +16,7 @@ class VerifyStaffScreen extends StatefulWidget {
   State<VerifyStaffScreen> createState() => _VerifyStaffScreenState();
 }
 
-String otpCode = '';
+String verCode = '';
 TextEditingController pinCodeController = TextEditingController();
 
 class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
@@ -28,7 +28,8 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              context.goNamed('/attStaff', pathParameters: {'verCode':'0'});
+              context.goNamed('/staffHome');
+              // context.goNamed('/attStaff', pathParameters: {'verCode':'0'});
               // nextPage(context, const StaffAttendanceScreen(vrcode: ''));
               // context.pop();
             },
@@ -65,7 +66,7 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
                 borderWidth: 1,
                 inactiveBorderWidth: 0.2,
                 onDone: (results) {
-                  otpCode = results.toString();
+                  verCode = results.toString();
                 },
               ),
               RichText(
@@ -98,7 +99,7 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
                 child: UniversalElevatedAppButton(
                   onpressed: () {
                     context.goNamed('/attStaff',
-                        pathParameters: {'verCode': otpCode});
+                        pathParameters: {'verCode': verCode});
                   },
                   text: 'Submit',
                   buttonColor: appColors.red,
