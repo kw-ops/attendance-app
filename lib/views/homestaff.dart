@@ -4,6 +4,7 @@ import 'package:attendance/model/staff_model.dart';
 import 'package:attendance/model/users.dart';
 import 'package:attendance/views/shimmerContainer.dart';
 import 'package:attendance/views/staffattend.dart';
+import 'package:attendance/views/verifyscrstaff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -20,18 +21,15 @@ import '../widget/widgets.dart';
 class HomeStaffScreen extends StatefulWidget {
   const HomeStaffScreen({super.key});
 
-  
-
   @override
   State<HomeStaffScreen> createState() => _HomeStaffScreenState();
-
 }
 
-  String courseName = '';
-  String courseCode = '';
-  String lecturerName = '';
-  String welcomeName = '';
-  String lecturerPicture = '';
+String courseName = '';
+String courseCode = '';
+String lecturerName = '';
+String welcomeName = '';
+String lecturerPicture = '';
 
 late UserDetailsProvider currentUser;
 
@@ -50,8 +48,6 @@ class _HomeStaffScreenState extends State<HomeStaffScreen> {
       isLoading = false;
     });
   }
-
-  
 
   @override
   void initState() {
@@ -101,15 +97,16 @@ class _HomeStaffScreenState extends State<HomeStaffScreen> {
                           LocationService()
                               .determinePosition()
                               .then((value) => print(value));
-                      
-                          welcomeName =_course.lecturer!.name.toString();
-                          courseCode =_course.courseCode.toString();
-                          courseName =_course.name.toString();
-                          lecturerName =_course.lecturer!.name.toString();
-                          lecturerPicture =_course.lecturer!.profilePicture.toString();
-                          welcomeName =_course.lecturer!.name.toString();
-                          context.pushNamed('/verStaff', pathParameters: {
-                            
+                          verCode = '';
+                          welcomeName = _course.lecturer!.name.toString();
+                          courseCode = _course.courseCode.toString();
+                          courseName = _course.name.toString();
+                          lecturerName = _course.lecturer!.name.toString();
+                          lecturerPicture =
+                              _course.lecturer!.profilePicture.toString();
+                          welcomeName = _course.lecturer!.name.toString();
+                          context.goNamed('/attStaff', pathParameters: {
+                            'verCode': verCode,
                             'welcomeName': welcomeName,
                             'courseCode': courseCode,
                             'courseName': courseName,

@@ -33,7 +33,7 @@ class AvatorWidget extends StatelessWidget {
         ],
         shape: BoxShape.circle,
         image: DecorationImage(
-          image: AssetImage(image),
+          image: NetworkImage(image),
           fit: BoxFit.cover,
         ),
       ),
