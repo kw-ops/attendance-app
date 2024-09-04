@@ -1,5 +1,6 @@
 import 'package:attendance/const/funcs.dart';
-import 'package:attendance/views/attstudent.dart';
+import 'package:attendance/views/attendscr/attstudent.dart';
+import 'package:attendance/views/homescr/homestu.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:attendance/widget/inputs/pin_code_textfield_widget.dart';
@@ -8,7 +9,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../const/constants.dart';
+import 'package:provider/provider.dart';
+import '../../const/constants.dart';
+import '../../database/user_details_provider.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
@@ -26,13 +29,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        // leading: IconButton(
-        //     onPressed: () {
-        //       // context.goNamed('/attStud', pathParameters: {'verCode': ''});
-        //       nextScreen(context, const AttendanceScreenStudent());
-        //     },
-        //     icon: const Icon(Icons.arrow_back_ios)),
-      ),
+          // leading: IconButton(
+          //     onPressed: () {
+          //       // context.goNamed('/attStud', pathParameters: {'verCode': ''});
+          //       nextScreen(context, const AttendanceScreenStudent());
+          //     },
+          //     icon: const Icon(Icons.arrow_back_ios)),
+          ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -63,7 +66,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 borderWidth: 1,
                 inactiveBorderWidth: 0.2,
-                onDone: (results) {},
+                onDone: (results) {
+                  Provider.of<UserDetailsProvider>(context, listen: false)
+                      .setVerifyCode(results);
+                },
               ),
               RichText(
                 //textAlign: TextAlign.center,
@@ -94,7 +100,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 child: UniversalElevatedAppButton(
                   onpressed: () {
-                    context.goNamed('/attStud');
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>const HomeScreenStudent(),
+                        ));
                   },
                   text: 'Submit',
                   buttonColor: appColors.red,

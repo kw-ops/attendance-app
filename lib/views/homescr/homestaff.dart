@@ -1,22 +1,25 @@
+// ignore_for_file: unused_field
+
 import 'package:attendance/database/konkonsa.dart';
 import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/model/staff_model.dart';
 import 'package:attendance/model/users.dart';
+import 'package:attendance/views/attendscr/attstudent.dart';
 import 'package:attendance/views/shimmerContainer.dart';
-import 'package:attendance/views/staffattend.dart';
-import 'package:attendance/views/verifyscrstaff.dart';
+import 'package:attendance/views/attendscr/staffattend.dart';
+import 'package:attendance/views/veri/verifyscrstaff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import '../const/constants.dart';
-import '../const/funcs.dart';
-import '../database/user_details_provider.dart';
-import '../model/coursemaodel.dart';
-import '../widget/utils/location_service.dart';
-import '../widget/widgets.dart';
+import '../../const/constants.dart';
+import '../../const/funcs.dart';
+import '../../database/user_details_provider.dart';
+import '../../model/coursemaodel.dart';
+import '../../widget/utils/location_service.dart';
+import '../../widget/widgets.dart';
 
 class HomeStaffScreen extends StatefulWidget {
   const HomeStaffScreen({super.key});
@@ -27,6 +30,8 @@ class HomeStaffScreen extends StatefulWidget {
 
 String courseName = '';
 String courseCode = '';
+double longitude = 0.0;
+double latitude = 0.0;
 String lecturerName = '';
 String welcomeName = '';
 String lecturerPicture = '';
@@ -43,7 +48,7 @@ class _HomeStaffScreenState extends State<HomeStaffScreen> {
     setState(() {
       isLoading = true;
     });
-    KonKonsa().getUserDataStaff(context);
+    await KonKonsa().getUserDataStaff(context);
     setState(() {
       isLoading = false;
     });
@@ -92,12 +97,6 @@ class _HomeStaffScreenState extends State<HomeStaffScreen> {
                       padding: const EdgeInsets.all(20),
                       child: GestureDetector(
                         onTap: () {
-                          _authenticate();
-                          // LocationService().getLocation().then((value) => print(value));
-                          LocationService()
-                              .determinePosition()
-                              .then((value) => print(value));
-                          verCode = '';
                           welcomeName = _course.lecturer!.name.toString();
                           courseCode = _course.courseCode.toString();
                           courseName = _course.name.toString();
@@ -105,14 +104,32 @@ class _HomeStaffScreenState extends State<HomeStaffScreen> {
                           lecturerPicture =
                               _course.lecturer!.profilePicture.toString();
                           welcomeName = _course.lecturer!.name.toString();
-                          context.goNamed('/attStaff', pathParameters: {
-                            'verCode': verCode,
-                            'welcomeName': welcomeName,
-                            'courseCode': courseCode,
-                            'courseName': courseName,
-                            'lecturerName': lecturerName,
-                            'lecturerPicture': lecturerPicture,
-                          });
+                          _authenticate;
+                          // LocationService().getLocation().then((value) => print(value));
+                          Provider.of<UserDetailsProvider>(
+                                  context,
+                                  listen: false)
+                              .setCourseId(_course.id!);
+                          LocationService()
+                              .determinePosition()
+                              .then((value) => 
+                              setState(() {
+                                longitude = value.longitude;
+                                latitude = value.latitude;
+                              })
+                              );
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StaffAttendanceScreen(
+                                  latitude: latitude,
+                                  longitude: longitude,
+                                    welcomeName: welcomeName,
+                                    courseCode: courseCode,
+                                    lecturerName: lecturerName,
+                                    lecturerPicture: lecturerPicture,
+                                    courseName: courseName),
+                              ));
                         },
                         child: Container(
                           height: Dimensions().pSH(80),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../const/constants.dart';
-import '../const/funcs.dart';
-import '../widget/widgets.dart';
+import '../../const/constants.dart';
+import '../../const/funcs.dart';
+import '../../widget/widgets.dart';
 
 class ProfileStaff extends StatefulWidget {
   const ProfileStaff({super.key});
@@ -146,7 +146,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'ahene',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -159,7 +159,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'Ahene',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -172,7 +172,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'Emmanuel',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -185,7 +185,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '1',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -198,7 +198,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '10000',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -211,7 +211,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'ahene@email.com',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -224,7 +224,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '0505242573',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -237,7 +237,7 @@ class _ProfileStaffState extends State<ProfileStaff> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '0246214952',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),

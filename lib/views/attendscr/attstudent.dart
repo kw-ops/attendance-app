@@ -1,63 +1,40 @@
-import 'package:attendance/views/homestaff.dart';
-import 'package:attendance/views/verifyscrstaff.dart';
-import 'package:attendance/widget/utils/date_time_utils.dart';
+import 'package:attendance/const/funcs.dart';
+import 'package:attendance/views/homescr/homestaff.dart';
+import 'package:attendance/views/veri/verifyscrstud.dart';
+// import 'package:attendance/views/slider.dart';
+// import 'package:attendance/views/verifyscrstud.dart';
+import 'package:attendance/widget/app_text_widget.dart';
+import 'package:attendance/widget/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradient_slide_to_act/gradient_slide_to_act.dart';
-import '../const/constants.dart';
-import '../const/funcs.dart';
-import '../widget/widgets.dart';
+import 'package:provider/provider.dart';
 
-class StaffAttendanceScreen extends StatefulWidget {
-  const StaffAttendanceScreen({
+import '../../const/constants.dart';
+import '../../database/user_details_provider.dart';
+
+class AttendanceScreenStudent extends StatefulWidget {
+  const AttendanceScreenStudent({
     super.key,
-    required String vercode,
     required String welcomeName,
     required String courseCode,
     required String lecturerName,
-    required String lecturerPicture,
     required String courseName,
+    required String lecturerPicture,
   });
 
   @override
-  State<StaffAttendanceScreen> createState() => _StaffAttendanceScreenState();
+  State<AttendanceScreenStudent> createState() =>
+      _AttendanceScreenStudentState();
 }
 
-class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
-  // bool isLoading = false;
-  // Future loadpage() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   KonKonsa().getUserDataStaff(context);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  // void initState() {
-  //   super.initState();
-  //   currentUser = context.read<UserDetailsProvider>();
-  //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-  //     loadpage();
-  //   });
-  // }
-
+class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    // print(currentUser);
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              context.goNamed('/staffHome');
-              // nextPage(context, const StaffAttendanceScreen(vrcode: ''));
-              // context.pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios)),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 30,
@@ -108,19 +85,19 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AppTextWidget(
-                          text: 'CSM 345',
+                          text: courseCode,
                           fontsize: getFontSize(24, size),
                           color: appColors.green,
                         ),
                         AppTextWidget(
-                          text: 'Dr. K Amissah',
+                          text: lecturerName,
                           fontsize: getFontSize(24, size),
                         )
                       ],
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
-                      child: Image.asset(pic1),
+                      child: Image(image: NetworkImage(lecturerPicture),),
                     ),
                   ],
                 ),
@@ -139,53 +116,26 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               color: appColors.black,
             ),
             createSpace(size, 50, 'vertical'),
-            // CustomSliderButton(
-            //   width: 340,
-            //   height: 80,
-            //   isComp: () {
-            //     print('ect');
-            //     context.pushNamed('/verStaff');
-            //   },
-            // ),
-            GradientSlideToAct(
-              width: 340,
-              height: 80,
-              textStyle: TextStyle(color: appColors.red, fontSize: 15),
-              backgroundColor: appColors.white0002,
-              onSubmit: () {
-                print("Submitted!");
-                context.pushNamed('/verStaff');
-              },
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white,
-                  appColors.red,
-                ],
-              ),
-            ),
-            createSpace(size, 25, 'vertical'),
-            Center(
-              child: AppTextWidget(
-                text: verCode,
-                fontsize: getFontSize(22, size),
-                color: appColors.black,
-              ),
-            ),
-            createSpace(size, 25, 'vertical'),
             // const CustomSliderButton(
             //   width: 340,
             //   height: 80,
+            //   routerPage: '/verStud',
             // ),
             GradientSlideToAct(
               width: 340,
               height: 80,
-              textStyle: TextStyle(color: appColors.red, fontSize: 15),
+              textStyle: TextStyle(
+                color: appColors.red,
+                fontSize: 16,
+              ),
               backgroundColor: appColors.white0002,
               onSubmit: () {
                 print("Submitted!");
-                context.goNamed('/staffHome');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VerificationScreen(),
+                    ));
               },
               gradient: LinearGradient(
                 begin: Alignment.topLeft,

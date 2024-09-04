@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:attendance/const/constants.dart';
 import 'package:attendance/const/funcs.dart';
+import 'package:attendance/views/startupscr/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,7 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTimer() async {
-    Timer(const Duration(milliseconds: 2500), (() => context.goNamed('/welcome')));
+    Timer(
+        const Duration(milliseconds: 2500),
+        (() => Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) {
+                return WelcomeScreen();
+              },
+            ))));
   }
 
   @override

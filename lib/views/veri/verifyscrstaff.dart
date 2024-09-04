@@ -1,13 +1,15 @@
-import 'package:attendance/views/staffattend.dart';
+import 'package:attendance/views/attendscr/staffattend.dart';
 import 'package:attendance/widget/utils/next_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../const/constants.dart';
-import '../const/funcs.dart';
-import '../widget/inputs/pin_code_textfield_widget.dart';
-import '../widget/widgets.dart';
+import 'package:provider/provider.dart';
+import '../../const/constants.dart';
+import '../../const/funcs.dart';
+import '../../database/user_details_provider.dart';
+import '../../widget/inputs/pin_code_textfield_widget.dart';
+import '../../widget/widgets.dart';
 
 class VerifyStaffScreen extends StatefulWidget {
   const VerifyStaffScreen({super.key});
@@ -24,6 +26,8 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
+    final verCode = Provider.of<UserDetailsProvider>(context, listen: false)
+        .getVerifyCode();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -66,7 +70,8 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
                 borderWidth: 1,
                 inactiveBorderWidth: 0.2,
                 onDone: (results) {
-                  verCode = results.toString();
+                  Provider.of<UserDetailsProvider>(context, listen: false)
+                      .setVerifyCode(results);
                 },
               ),
               RichText(
@@ -98,8 +103,7 @@ class _VerifyStaffScreenState extends State<VerifyStaffScreen> {
                 ),
                 child: UniversalElevatedAppButton(
                   onpressed: () {
-                    context.goNamed('/attStaff',
-                        pathParameters: {'verCode': verCode});
+                    Navigator.pop(context);
                   },
                   text: 'Submit',
                   buttonColor: appColors.red,

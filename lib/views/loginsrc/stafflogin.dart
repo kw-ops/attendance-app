@@ -1,22 +1,19 @@
-import 'package:attendance/database/konkonsa.dart';
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:attendance/model/loginuser.dart';
-import 'package:attendance/model/users.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:attendance/views/homescr/homestaff.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../const/constants.dart';
-import '../const/funcs.dart';
-import '../database/auth_functions.dart';
-import '../database/error_response.dart';
-import '../database/try.dart';
-import '../database/user_details_provider.dart';
-import '../widget/default_snackbar.dart';
-import '../widget/utils/connection_check.dart';
-import '../widget/utils/internet_provider.dart';
-import '../widget/validator.dart';
-import '../widget/widgets.dart';
+import '../../const/constants.dart';
+import '../../const/funcs.dart';
+import '../../database/auth_functions.dart';
+import '../../database/try.dart';
+import '../../database/user_details_provider.dart';
+import '../../widget/default_snackbar.dart';
+import '../../widget/validator.dart';
+import '../../widget/widgets.dart';
 
 class StaffSignInScreen extends StatefulWidget {
   const StaffSignInScreen({super.key});
@@ -37,7 +34,6 @@ String staffid = '';
 class _StaffSignInScreenState extends State<StaffSignInScreen> {
   final ApiService apiService = ApiService();
   bool _isLoading = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +229,13 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                                   Provider.of<UserDetailsProvider>(context,
                                           listen: false)
                                       .setUserDetails(loginResponse);
-                                  context.goNamed('/staffHome');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const HomeStaffScreen(),
+                                    ),
+                                  );
                                   print('suc2');
                                   setState(() {
                                     _isLoading = false;
@@ -244,7 +246,10 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                                     _isLoading = false;
                                   });
                                 }
-                              }
+                              }else {
+                              showSnackBar(context,
+                                  'You are not a Student, See the admin');
+                            }
                               print('object2');
                               setState(() {
                                 _isLoading = false;
@@ -262,16 +267,13 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                         ),
                 ),
                 createSpace(size, 15, 'vertical'),
-                RichText(
-                  text: TextSpan(
-                    text:
-                        'You can also access the Student Portal on your mobile ',
-                    style: TextStyle(
-                      color: appColors.black,
-                    ),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                // UniversalTextAppButton(
+                //   onpressed: () {
+                //     context.goNamed('/userType');
+                //   },
+                //   text: 'Back',
+                //   textButtonColor: appColors.black,
+                // ),
               ],
             ),
           ),

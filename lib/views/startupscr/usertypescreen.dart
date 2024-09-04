@@ -1,8 +1,10 @@
+import 'package:attendance/views/loginsrc/signin.dart';
+import 'package:attendance/views/loginsrc/stafflogin.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../const/constants.dart';
-import '../const/funcs.dart';
-import '../widget/widgets.dart';
+import '../../const/constants.dart';
+import '../../const/funcs.dart';
+import '../../widget/widgets.dart';
 
 class USerTypeScreen extends StatefulWidget {
   const USerTypeScreen({super.key});
@@ -64,7 +66,11 @@ class _USerTypeScreenState extends State<USerTypeScreen> {
                   UniversalElevatedAppButton(
                     height: Dimensions().pSH(40),
                     onpressed: () {
-                      context.goNamed('/studentLogin');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ));
                     },
                     text: 'Student',
                     fontsize: getFontSize(13, size),
@@ -90,7 +96,11 @@ class _USerTypeScreenState extends State<USerTypeScreen> {
                   UniversalElevatedAppButton(
                     height: Dimensions().pSH(40),
                     onpressed: () {
-                      context.goNamed('/staffLogin');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const StaffSignInScreen(),
+                          ));
                     },
                     text: 'Staff',
                     fontsize: getFontSize(13, size),
@@ -103,7 +113,7 @@ class _USerTypeScreenState extends State<USerTypeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              context.goNamed('/welcome');
+              Navigator.pop(context);
             },
             child: SizedBox(
               child: Column(

@@ -1,15 +1,15 @@
 import 'package:attendance/database/konkonsa.dart';
 import 'package:attendance/database/user_details_provider.dart';
-import 'package:attendance/views/attstudent.dart';
-import 'package:attendance/views/btmscrstudent.dart';
-import 'package:attendance/views/histstudent.dart';
-import 'package:attendance/views/homestu.dart';
-import 'package:attendance/views/profilescreen.dart';
-import 'package:attendance/views/signin.dart';
-import 'package:attendance/views/splash.dart';
-import 'package:attendance/views/usertypescreen.dart';
-import 'package:attendance/views/verifyscrstud.dart';
-import 'package:attendance/views/welcome.dart';
+import 'package:attendance/views/attendscr/attstudent.dart';
+import 'package:attendance/views/homescr/btmscrstudent.dart';
+import 'package:attendance/views/historyscr/histstudent.dart';
+import 'package:attendance/views/homescr/homestu.dart';
+import 'package:attendance/views/profilescr/profilescreen.dart';
+import 'package:attendance/views/loginsrc/signin.dart';
+import 'package:attendance/views/startupscr/splash.dart';
+import 'package:attendance/views/startupscr/usertypescreen.dart';
+import 'package:attendance/views/veri/verifyscrstud.dart';
+import 'package:attendance/views/startupscr/welcome.dart';
 import 'package:attendance/widget/utils/internet_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,14 +42,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      routerConfig: router,
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,58 +1,39 @@
 import 'package:attendance/model/coursemaodel.dart';
-import 'package:attendance/model/staff_model.dart';
-import 'package:attendance/model/student_model.dart';
 
 class Attend {
   int? id;
-  CoursesModel? course;
-  StaffModel? lecturer;
-  List<StudentModel>? student;
-  String? presentUser;
-  String? absentUser;
-  String? active;
+  bool? isActive;
+  DateTime? generatedAt;
+  DateTime? expiresAt;
   String? token;
-  String? generatedAt;
-  String? ExpiresAt;
+  CoursesModel? course;
 
   Attend({
     this.id,
-    this.course,
-    this.lecturer,
-    this.student,
-    this.presentUser,
-    this.absentUser,
-    this.active,
-    this.token,
+    this.isActive,
     this.generatedAt,
+    this.expiresAt,
+    this.token,
+    this.course,
   });
 
   Attend.fromJson(Map<String, dynamic> json) {
-    id = json['user_id'];
-    course = json['course'];
-    student = json['student'] ?? '';
-    lecturer = json['lecturer'];
-    active = json['active'];
-    active = json['active'];
+    id = json['id'];
+    isActive = json['isActive'] ;
+    expiresAt = json['expires_at'] ?? '';
+    generatedAt = json['generated_at'];
     token = json['token'];
-    presentUser = json['first_name'] ?? '';
-    absentUser = json['last_name'] ?? '';
-    generatedAt = json['staff_id'];
-    generatedAt = json['staff_id'];
+    course = CoursesModel.fromJson(json['course']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['user_id'] = id;
-    data['course'] = course;
-    data['lecturer'] = lecturer;
-    data['first_name'] = presentUser;
-    data['last_name'] = absentUser;
-    data['active'] = active;
-    data['active'] = active;
+    data['id'] = id;
+    data['isActive'] = isActive;
+    data['generated_at'] = generatedAt;
     data['token'] = token;
-    data['student'] = student;
-    data['staff_Id'] = generatedAt;
-
+    data['expires_at'] = expiresAt;
+    data['course'] = course;
     return data;
   }
 }

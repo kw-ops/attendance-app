@@ -1,26 +1,24 @@
-import 'package:attendance/views/histstaff.dart';
-import 'package:attendance/views/homestaff.dart';
-import 'package:attendance/views/profstaff.dart';
+import 'package:attendance/const/colors.dart';
+import 'package:attendance/views/historyscr/histstudent.dart';
+import 'package:attendance/views/homescr/homestu.dart';
+import 'package:attendance/views/profilescr/profilescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-import '../const/colors.dart';
-
-class BottomScreenStaff extends StatefulWidget {
-  const BottomScreenStaff({super.key});
+class BottomScreenStudent extends StatefulWidget {
+  const BottomScreenStudent({super.key});
 
   @override
-  State<BottomScreenStaff> createState() => _BottomScreenStaffState();
+  State<BottomScreenStudent> createState() => _BottomScreenStudentState();
 }
 
-class _BottomScreenStaffState extends State<BottomScreenStaff> {
-  @override
-   int _selectPageIndex = 1;
+class _BottomScreenStudentState extends State<BottomScreenStudent> {
+  int _selectPageIndex = 1;
 
   final List _page = [
-    const HistoryStaff(),
-    const HomeStaffScreen(),
-    const ProfileStaff(),
+    const HistoryScreenStudent(),
+    const HomeScreenStudent(),
+    const ProfileScreen(),
   ];
 
   void _onPageSelected(int index) {

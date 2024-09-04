@@ -1,29 +1,89 @@
-import 'package:attendance/const/funcs.dart';
-import 'package:attendance/model/coursemaodel.dart';
-import 'package:attendance/model/student_model.dart';
-import 'package:attendance/widget/app_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-import '../const/constants.dart';
-import '../model/attendhistory.dart';
+import '../../const/constants.dart';
+import '../../const/funcs.dart';
+import '../../model/coursemaodel.dart';
+import '../../model/attendhistory.dart';
+import '../../widget/widgets.dart';
 
-class HistoryScreenStudent extends StatefulWidget {
-  const HistoryScreenStudent({super.key});
+class HistoryStaff extends StatefulWidget {
+  const HistoryStaff({super.key});
 
   @override
-  State<HistoryScreenStudent> createState() => _HomeScreenStudentState();
+  State<HistoryStaff> createState() => _HistoryStaffState();
 }
-
-final List<HistoryAttendance> _data = [];
-
-class _HomeScreenStudentState extends State<HistoryScreenStudent> {
+final List<HistoryAttendance> _data = [
+  // CoursesModel(
+  //   courseCode: 'CSM 346',
+  //   // isExpanded: false,
+  //   state: [
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: true,
+  //     ),
+  //   ],
+  // ),
+  // CoursesModel(
+  //   courseCode: 'CSM 436',
+  //   // isExpanded: false,
+  //   state: [
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: '11 Jan 2024',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: true,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //   ],
+  // ),
+  // CoursesModel(
+  //   courseCode: 'CSM 405',
+  //   // isExpanded: false,
+  //   state: [
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: true,
+  //     ),
+  //     HistoryModel(
+  //       date: 'date',
+  //       time: 'time',
+  //       attend: false,
+  //     ),
+  //   ],
+  // ),
+];
+class _HistoryStaffState extends State<HistoryStaff> {
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    return  
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: appColors.red,
         //toolbarHeight: Dimensions().pSH(100),
@@ -60,7 +120,7 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                     });
                   },
                   children:
-                      _data.map<ExpansionPanel>((HistoryAttendance studentModel) {
+                      _data.map<ExpansionPanel>((HistoryAttendance historyAttendance) {
                     return ExpansionPanel(
                       canTapOnHeader: true,
                       headerBuilder: (BuildContext context, bool isExpanded) {
@@ -80,18 +140,16 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                             ),
                           ),
                           title: AppTextWidget(
-                            // text: studentModel.courseCode.toString(),
-                            text: 'studentModel.courseCode.toString()',
+                            // text: historyAttendance[].course[].name,
+                            text: 'historyAttendance[].course[].name',
                             fontsize: getFontSize(15, size),
                             fontWeight: FontWeight.bold,
                           ),
                         );
                       },
-                      body: 
-                      // body: studentModel.state!.isNotEmpty ?
-                           ListView.builder(
-                              itemCount: 0,
-                              // itemCount: studentModel.state!.length,
+                      body: historyAttendance.course!.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: historyAttendance.course!.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
@@ -103,7 +161,7 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                                 //     borderRadius: BorderRadius.circular(15),
                                 //   ),
                                 //   child: Text(
-                                //     studentModel.state![index].date.toString(),
+                                //     historyAttendance.state![index].date.toString(),
                                 //   ),
                                 // );
                                 return Padding(
@@ -140,25 +198,25 @@ class _HomeScreenStudentState extends State<HistoryScreenStudent> {
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                             ),
-                                            child:
-                                            // child: studentModel.state![index].attend! ? Image.asset(presenticon)  :
-                                            Image.asset(absenticon ),
+                                            // child: historyAttendance.course![index] ? Image.asset(presenticon)
+                                            child: true ? Image.asset(presenticon)
+                                            : Image.asset(absenticon ),
                                           )
                                         ],
                                       ),
                                       // Text(
-                                      //   studentModel.state![index].date
+                                      //   historyAttendance.state![index].date
                                       //       .toString(),
                                       // ),
                                     ),
                                   ),
                                 );
                               },
+                            )
+                          : const Center(
+                              child: Text('No items'),
                             ),
-                          // : const Center(
-                          //     child: Text('No items'),
-                          //   ),
-                      isExpanded: studentModel.isExpanded,
+                      isExpanded: historyAttendance.isExpanded,
                     );
                   }).toList(),
                 ),

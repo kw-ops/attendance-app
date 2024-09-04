@@ -1,17 +1,22 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:attendance/const/funcs.dart';
 import 'package:attendance/model/loginuser.dart';
+import 'package:attendance/views/homescr/homestaff.dart';
+import 'package:attendance/views/homescr/homestu.dart';
 import 'package:attendance/widget/app_text_widget.dart';
+import 'package:attendance/widget/default_snackbar.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../const/constants.dart';
-import '../database/auth_functions.dart';
-import '../database/user_details_provider.dart';
-import '../model/users.dart';
-import '../widget/validator.dart';
+import '../../const/constants.dart';
+import '../../database/auth_functions.dart';
+import '../../database/user_details_provider.dart';
+import '../../model/users.dart';
+import '../../widget/validator.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -29,14 +34,15 @@ String password = '';
 String studentId = '';
 AuthValidate authValidate = AuthValidate();
 // final ApiService apiService = ApiService();
- 
+
 class _SignInScreenState extends State<SignInScreen> {
-   bool _isLoading = false;
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: appColors.white,
       body: Center(
         child: SingleChildScrollView(
@@ -49,9 +55,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 height: Dimensions().pSH(260),
                 width: Dimensions().pSW(360),
                 decoration: BoxDecoration(
-                          color: appColors.greyDADADA,
-                          borderRadius: BorderRadius.circular(15),
-                        ), 
+                  color: appColors.greyDADADA,
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -195,74 +201,82 @@ class _SignInScreenState extends State<SignInScreen> {
                   horizontal: 20,
                 ),
                 child: _isLoading
-                      ? const CircularProgressIndicator()
-                      : UniversalElevatedAppButton(
-                          onpressed: () async {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            if (_loginFormKey.currentState!.validate()) {
-                              _loginFormKey.currentState!.save();
-                              print('object1');
-                              // context.goNamed('/staffHome');
-                              final loginResponse =
-                                  await Authentications().loginSTUDENT(
-                                context: context,
-                                username: username,
-                                password: password.trim(),
-                                studentId: studentId,
-                              );
-                              if (loginResponse is LogUs) {
-                                print(loginResponse.token);
-                                if (mounted) {
-                                  Provider.of<UserDetailsProvider>(context,
-                                          listen: false)
-                                      .setAccessToken(
-                                          loginResponse.token.toString());
-                                  // context.goNamed('/staffHome');
-                                  print('suc${loginResponse.token}');
-                                  Provider.of<UserDetailsProvider>(context,
-                                          listen: false)
-                                      .setUserDetails(loginResponse);
-                                  context.goNamed('/staffHome');
-                                  print('suc2');
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                } //////////////////////////
-                                else {
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                }
+                    ? const CircularProgressIndicator()
+                    : UniversalElevatedAppButton(
+                        onpressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          if (_loginFormKey.currentState!.validate()) {
+                            _loginFormKey.currentState!.save();
+                            print('object1');
+                            // context.goNamed('/staffHome');
+                            final loginResponse =
+                                await Authentications().loginSTUDENT(
+                              context: context,
+                              username: username,
+                              password: password.trim(),
+                              studentId: studentId,
+                            );
+                            if (loginResponse is LogUs) {
+                              print(loginResponse.token);
+                              if (mounted) {
+                                Provider.of<UserDetailsProvider>(context,
+                                        listen: false)
+                                    .setAccessToken(
+                                        loginResponse.token.toString());
+                                // context.goNamed('/staffHome');
+                                print('suc${loginResponse.token}');
+                                Provider.of<UserDetailsProvider>(context,
+                                        listen: false)
+                                    .setUserDetails(loginResponse);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const HomeScreenStudent(),
+                                    ));
+                                print('suc2');
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              } //////////////////////////
+                              else {
+                                setState(() {
+                                  _isLoading = false;
+                                });
                               }
-                              print('object2');
-                              setState(() {
-                                _isLoading = false;
-                              });
                             } else {
-                              setState(() {
-                                _isLoading = false;
-                              });
-                              print('nullempty');
+                              showSnackBar(context,
+                                  'You are not a Student, See the admin');
                             }
-                          },
-                  text: 'Login',
-                  height: Dimensions().pSH(40),
-                  buttonColor: appColors.green,
-                ),
+                            print('object2');
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          } else {
+                            setState(() {
+                              _isLoading = false;
+                            });
+                            print('nullempty');
+                          }
+                        },
+                        text: 'Login',
+                        height: Dimensions().pSH(40),
+                        buttonColor: appColors.green,
+                      ),
               ),
               createSpace(size, 15, 'vertical'),
-              RichText(
-                text: TextSpan(
-                  text:
-                      'You can also access the Student Portal on your mobile ',
-                  style: TextStyle(
-                    color: appColors.black,
-                  ),
-                ),
-                textAlign: TextAlign.center,
-              ),
+              // RichText(
+              //   text: TextSpan(
+              //     text:
+              //         'You can also access the Student Portal on your mobile ',
+              //     style: TextStyle(
+              //       color: appColors.black,
+              //     ),
+              //   ),
+              //   textAlign: TextAlign.center,
+              // ),
             ],
           ),
         ),

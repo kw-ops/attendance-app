@@ -1,8 +1,14 @@
 import 'package:attendance/const/funcs.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 
-import '../const/constants.dart';
+import '../../const/constants.dart';
+import '../../database/konkonsa.dart';
+import '../../database/user_details_provider.dart';
+import '../../widget/widgets.dart';
+import '../shimmerContainer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,11 +18,40 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+late UserDetailsProvider currentUser;
+  bool isLoading = false;
+
+  Future loadpage() async {
+    setState(() {
+      isLoading = true;
+    });
+    await KonKonsa().getUserDataStaff(context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = context.read<UserDetailsProvider>();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      loadpage();
+    });
+    
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return isLoading
+        ? const ShimmerWidget(child: name())
+        : Scaffold(
       appBar: AppBar(
         title: AppTextWidget(
           text: 'Profile',
@@ -146,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'prince',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -159,7 +194,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'Akanya',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -172,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'Prince',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -185,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '1',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -198,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '11111',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -211,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: 'priince@gmail.com',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -224,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '0206377363',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),
@@ -237,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontsize: getFontSize(14, size),
                       ),
                       subtitle: AppTextWidget(
-                        text: 'text',
+                        text: '0245890265',
                         color: appColors.black,
                         fontWeight: FontWeight.bold,
                         fontsize: getFontSize(16, size),

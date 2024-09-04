@@ -1,5 +1,6 @@
 import 'package:attendance/const/constants.dart';
 import 'package:attendance/const/funcs.dart';
+import 'package:attendance/views/startupscr/usertypescreen.dart';
 import 'package:attendance/widget/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   UniversalElevatedAppButton(
                     height: Dimensions().pSH(40),
                     onpressed: () {
-                      context.goNamed('/userType');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => USerTypeScreen(),));
                     },
                     text: 'Tap to Log In',
                     fontsize: getFontSize(13, size),
