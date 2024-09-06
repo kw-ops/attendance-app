@@ -1,15 +1,16 @@
 import 'package:attendance/model/attend.dart';
+import 'package:attendance/model/attendhistory.dart';
 import 'package:attendance/model/coursemaodel.dart';
 import 'package:attendance/model/loginuser.dart';
 import 'package:attendance/model/staff_model.dart';
 import 'package:attendance/model/student_model.dart';
-// import 'package:attendance/model/student_model.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   // ignore: prefer_final_fields
   LogUs? _user;
   List<CoursesModel> _userAsCourses = [] ;
+  List<HistoryAttendance> _userAsAttendace = [] ;
   StaffModel? _userAsStaff;
   StudentModel? _userAsStudent;
   Attend? _attendMode;
@@ -35,6 +36,10 @@ class UserDetailsProvider extends ChangeNotifier {
 
   List<CoursesModel> getCourseDetails() {
     return _userAsCourses ;
+  }
+
+  List<HistoryAttendance> getAttendanceDetails() {
+    return _userAsAttendace ;
   }
 
   StaffModel getStaffDetails() {
@@ -67,6 +72,11 @@ class UserDetailsProvider extends ChangeNotifier {
 
   void setCourseDetails(List<CoursesModel> userAsStudent) {
     _userAsCourses = userAsStudent;
+    notifyListeners();
+  }
+  
+  void setAttendanceDetails(List<HistoryAttendance> userAsAttendance) {
+    _userAsAttendace = userAsAttendance;
     notifyListeners();
   }
 

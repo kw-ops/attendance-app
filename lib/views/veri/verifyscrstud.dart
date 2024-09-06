@@ -1,17 +1,14 @@
 import 'package:attendance/const/funcs.dart';
-import 'package:attendance/views/attendscr/attstudent.dart';
-import 'package:attendance/views/homescr/homestu.dart';
+import 'package:attendance/database/konkonsa.dart';
+import 'package:attendance/views/homescr/btmscrstudent.dart';
 import 'package:attendance/widget/app_text_widget.dart';
+import 'package:attendance/widget/default_snackbar.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:attendance/widget/inputs/pin_code_textfield_widget.dart';
-import 'package:attendance/widget/utils/next_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:provider/provider.dart';
 import '../../const/constants.dart';
-import '../../database/user_details_provider.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
@@ -21,6 +18,7 @@ class VerificationScreen extends StatefulWidget {
 }
 
 TextEditingController pinCodeController = TextEditingController();
+String otpcoDe = '';
 
 class _VerificationScreenState extends State<VerificationScreen> {
   @override
@@ -67,8 +65,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 borderWidth: 1,
                 inactiveBorderWidth: 0.2,
                 onDone: (results) {
-                  Provider.of<UserDetailsProvider>(context, listen: false)
-                      .setVerifyCode(results);
+                  // Provider.of<UserDetailsProvider>(context, listen: false)
+                  // .setVerifyCode(results);
+                  otpcoDe = results;
                 },
               ),
               RichText(
@@ -100,11 +99,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 child: UniversalElevatedAppButton(
                   onpressed: () {
-                    Navigator.pushReplacement(
+                    final confirm = KonKonsa()
+                        .takeAttendaceStudent(context: context, token: otpcoDe);
+                    if (confirm == 200) {
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>const HomeScreenStudent(),
-                        ));
+                          builder: (context) => const BottomScreenStudent(),
+                        ),
+                      );
+                      showSnackBar(context, 'Successfully Taken');
+                    } else {
+                      showSnackBar(context, 'Wrong OTP');
+                    }
                   },
                   text: 'Submit',
                   buttonColor: appColors.red,

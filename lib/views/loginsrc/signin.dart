@@ -1,21 +1,15 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
-
 import 'package:attendance/const/funcs.dart';
 import 'package:attendance/model/loginuser.dart';
-import 'package:attendance/views/homescr/homestaff.dart';
-import 'package:attendance/views/homescr/homestu.dart';
+import 'package:attendance/views/homescr/btmscrstudent.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/default_snackbar.dart';
 import 'package:attendance/widget/inputs/inputs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
 import '../../const/constants.dart';
 import '../../database/auth_functions.dart';
 import '../../database/user_details_provider.dart';
-import '../../model/users.dart';
 import '../../widget/validator.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -230,11 +224,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                 Provider.of<UserDetailsProvider>(context,
                                         listen: false)
                                     .setUserDetails(loginResponse);
-                                Navigator.push(
+                                    showSnackBar(context, 'Login Successful');
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const HomeScreenStudent(),
+                                          const BottomScreenStudent(),
                                     ));
                                 print('suc2');
                                 setState(() {
@@ -246,9 +241,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                   _isLoading = false;
                                 });
                               }
-                            } else {
-                              showSnackBar(context,
-                                  'You are not a Student, See the admin');
                             }
                             print('object2');
                             setState(() {

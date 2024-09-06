@@ -1,22 +1,20 @@
 import 'package:attendance/const/funcs.dart';
 import 'package:attendance/views/homescr/homestaff.dart';
 import 'package:attendance/views/veri/verifyscrstud.dart';
-// import 'package:attendance/views/slider.dart';
-// import 'package:attendance/views/verifyscrstud.dart';
 import 'package:attendance/widget/app_text_widget.dart';
 import 'package:attendance/widget/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gradient_slide_to_act/gradient_slide_to_act.dart';
 import 'package:provider/provider.dart';
 
 import '../../const/constants.dart';
 import '../../database/user_details_provider.dart';
+import '../../model/loginuser.dart';
 
 class AttendanceScreenStudent extends StatefulWidget {
   const AttendanceScreenStudent({
     super.key,
-    required String welcomeName,
+    // required String welcomeName,
     required String courseCode,
     required String lecturerName,
     required String courseName,
@@ -32,6 +30,8 @@ class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
   @override
   Widget build(BuildContext context) {
     Dimensions.init(context);
+    LogUs welcomeName = Provider.of<UserDetailsProvider>(context, listen: false)
+          .getUserDetails();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(),
@@ -49,7 +49,7 @@ class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
               color: appColors.red,
             ),
             AppTextWidget(
-              text: welcomeName,
+              text: welcomeName.username!,
               fontsize: getFontSize(28, size),
             ),
             createSpace(size, 30, 'vertical'),
@@ -97,7 +97,7 @@ class _AttendanceScreenStudentState extends State<AttendanceScreenStudent> {
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
-                      child: Image(image: NetworkImage(lecturerPicture),),
+                      child: Image(image: NetworkImage(lecturerPicture != null ? lecturerPicture : "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="),),
                     ),
                   ],
                 ),

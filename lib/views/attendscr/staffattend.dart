@@ -1,15 +1,14 @@
-import 'package:attendance/database/auth_functions.dart';
-import 'package:attendance/database/auth_url.dart';
+import 'package:attendance/database/konkonsa.dart';
+import 'package:attendance/views/homescr/btmstaff.dart';
 import 'package:attendance/views/homescr/homestaff.dart';
-import 'package:attendance/views/veri/verifyscrstaff.dart';
 import 'package:attendance/widget/utils/date_time_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gradient_slide_to_act/gradient_slide_to_act.dart';
 import 'package:provider/provider.dart';
 import '../../const/constants.dart';
 import '../../const/funcs.dart';
 import '../../database/user_details_provider.dart';
+import '../../model/loginuser.dart';
 import '../../widget/default_snackbar.dart';
 import '../../widget/validator.dart';
 import '../../widget/widgets.dart';
@@ -17,7 +16,7 @@ import '../../widget/widgets.dart';
 class StaffAttendanceScreen extends StatefulWidget {
   const StaffAttendanceScreen({
     super.key,
-    required String welcomeName,
+    // required String welcomeName,
     required double latitude,
     required double longitude,
     required String courseCode,
@@ -34,6 +33,8 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   TextEditingController verifyController = TextEditingController();
   String verifyCode = "";
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  bool readOnly = false;
+  bool isVisble = false;
   // bool isLoading = false;
   // Future loadpage() async {
   //   setState(() {
@@ -57,9 +58,8 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget build(BuildContext context) {
     Dimensions.init(context);
     Size size = MediaQuery.of(context).size;
-    // final verCode = Provider.of<UserDetailsProvider>(context, listen: false)
-    //     .getVerifyCode();
-    // print(currentUser);
+    LogUs welcomeName = Provider.of<UserDetailsProvider>(context, listen: false)
+        .getUserDetails();
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -72,12 +72,12 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppTextWidget(
-                text: welcomeName,
+                text: 'Welcome',
                 fontsize: getFontSize(24, size),
                 color: appColors.red,
               ),
               AppTextWidget(
-                text: welcomeName,
+                text: welcomeName.username!,
                 fontsize: getFontSize(28, size),
               ),
               createSpace(size, 30, 'vertical'),
@@ -126,7 +126,11 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         // child: Image.network(lecturerPicture,height: 50,width: 50,),
-                        child: Image(image: NetworkImage(lecturerPicture),),
+                        child: Image(
+                          image: NetworkImage(lecturerPicture != null
+                              ? lecturerPicture
+                              : "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="),
+                        ),
                       ),
                     ],
                   ),
@@ -162,11 +166,16 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                   if (_loginFormKey.currentState!.validate()) {
                     _loginFormKey.currentState!.save();
                     print("Submitted!");
-                    Authentications().takeAttendaceStaff(
+                    setState(() {
+                      readOnly = true;
+                      isVisble = true;
+                    });
+
+                    KonKonsa().takeAttendaceStaff(
                       context: context,
                       token: verifyCode,
-                      latitude: latitude.toString(),
-                      longitude: longitude.toString(),
+                      latitude: latitude,
+                      longitude: longitude,
                     );
                     // Navigator.push(
                     //     context,
@@ -174,12 +183,13 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                     //       builder: (context) => const VerifyStaffScreen(),
                     //     ));
                   } else {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomeStaffScreen(),
+                        builder: (context) => const BottomScreenStaff(),
                       ),
                     );
+                    showSnackBar(context, 'You have to enter an OTP Code');
                   }
                 },
                 gradient: LinearGradient(
@@ -203,12 +213,14 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                     titleColor: appColors.black,
                     isPasswordField: true,
                     controller: verifyController,
+                    readOnly: readOnly,
                     textInputType: TextInputType.name,
                     onchanged: (value) {
                       verifyCode = value;
                       return;
                     },
-                    validator: (value) => AuthValidate().validateNotEmpty(value),
+                    validator: (value) =>
+                        AuthValidate().validateNotEmpty(value),
                     onSaved: (value) {
                       verifyController.text = value;
                     },
@@ -220,27 +232,31 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               //   width: 340,
               //   height: 80,
               // ),
-              GradientSlideToAct(
-                width: 340,
-                height: 80,
-                textStyle: TextStyle(color: appColors.red, fontSize: 15),
-                backgroundColor: appColors.white0002,
-                onSubmit: () {
-                  print("Submitted!");
-                  showSnackBar(context, 'Attendance Ended Successfully');
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) {
-                      return const HomeStaffScreen();
-                    },
-                  ));
-                },
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white,
-                    appColors.red,
-                  ],
+              Visibility(
+                visible: isVisble,
+                child: GradientSlideToAct(
+                  width: 340,
+                  height: 80,
+                  textStyle: TextStyle(color: appColors.red, fontSize: 15),
+                  backgroundColor: appColors.white0002,
+                  onSubmit: () {
+                    print("Submitted!");
+                    KonKonsa().endAttendanceStaff;
+                    showSnackBar(context, 'Attendance Ended Successfully');
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const BottomScreenStaff();
+                      },
+                    ));
+                  },
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white,
+                      appColors.red,
+                    ],
+                  ),
                 ),
               ),
             ],

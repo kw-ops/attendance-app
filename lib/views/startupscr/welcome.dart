@@ -4,7 +4,6 @@ import 'package:attendance/views/startupscr/usertypescreen.dart';
 import 'package:attendance/widget/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

@@ -5,7 +5,6 @@ import 'package:attendance/const/constants.dart';
 import 'package:attendance/const/funcs.dart';
 import 'package:attendance/views/startupscr/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

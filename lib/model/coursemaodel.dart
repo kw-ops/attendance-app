@@ -6,7 +6,9 @@ class CoursesModel {
   String? name;
   String? courseCode;
   bool? active;
+  bool? isExpanded;
   List<StudentModel>? students;
+  // List<Attend>? attendances;
   StaffModel? lecturer;
 
   CoursesModel({
@@ -14,7 +16,9 @@ class CoursesModel {
     this.name,
     this.courseCode,
     this.active,
+    this.isExpanded,
     this.students,
+    // this.attendances,
     this.lecturer,
   });
 
@@ -25,6 +29,9 @@ class CoursesModel {
     students = ((json['students']) as List)
         .map((e) => StudentModel.fromJson(e))
         .toList();
+    // attendances = ((json['attendances']) as List)
+    //     .map((e) => Attend.fromJson(e))
+    //     .toList();
     lecturer = StaffModel.fromJson(json['lecturer']);
   }
 
@@ -34,6 +41,7 @@ class CoursesModel {
     data['name'] = name;
     data['course_code'] = courseCode;
     data['students'] = students;
+    // data['attendances'] = attendances;
     data['lecturer'] = lecturer;
     return data;
   }

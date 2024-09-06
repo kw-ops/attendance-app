@@ -1,17 +1,16 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:attendance/model/loginuser.dart';
-import 'package:attendance/views/homescr/homestaff.dart';
+import 'package:attendance/views/homescr/btmstaff.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../const/constants.dart';
 import '../../const/funcs.dart';
 import '../../database/auth_functions.dart';
-import '../../database/try.dart';
 import '../../database/user_details_provider.dart';
 import '../../widget/default_snackbar.dart';
+import '../../widget/utils/internet_provider.dart';
 import '../../widget/validator.dart';
 import '../../widget/widgets.dart';
 
@@ -32,7 +31,6 @@ String password = '';
 String staffid = '';
 
 class _StaffSignInScreenState extends State<StaffSignInScreen> {
-  final ApiService apiService = ApiService();
   bool _isLoading = false;
 
   @override
@@ -206,6 +204,10 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                             setState(() {
                               _isLoading = true;
                             });
+                             final ip = context.read<InternetProvider>();
+      ip.checkInternetConnection();
+
+      if (ip.hasInternet == true) {
                             if (_loginFormKey.currentState!.validate()) {
                               _loginFormKey.currentState!.save();
                               print('object1');
@@ -229,11 +231,12 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                                   Provider.of<UserDetailsProvider>(context,
                                           listen: false)
                                       .setUserDetails(loginResponse);
-                                  Navigator.push(
+                                  showSnackBar(context, 'Login Successful');
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const HomeStaffScreen(),
+                                          const BottomScreenStaff(),
                                     ),
                                   );
                                   print('suc2');
@@ -246,10 +249,7 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                                     _isLoading = false;
                                   });
                                 }
-                              }else {
-                              showSnackBar(context,
-                                  'You are not a Student, See the admin');
-                            }
+                              } 
                               print('object2');
                               setState(() {
                                 _isLoading = false;
@@ -260,7 +260,7 @@ class _StaffSignInScreenState extends State<StaffSignInScreen> {
                               });
                               print('nullempty');
                             }
-                          },
+                          }},
                           text: 'Login',
                           height: Dimensions().pSH(40),
                           buttonColor: appColors.green,
